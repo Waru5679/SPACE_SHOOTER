@@ -1,0 +1,19 @@
+#pragma once 
+
+//使用するヘッダーファイル
+#include "GameL\SceneManager.h"
+
+//使用するネームスペース
+using namespace GameL;
+
+//シーン：ゲームタイトル
+class CSceneTitle:public CScene
+{
+public:
+	CSceneTitle();
+	~CSceneTitle();
+	void InitScene();//ゲームタイトルの初期化メソッド
+	void Scene();//ゲームタイトルの実行中メソッド
+private:
+	bool m_music_flag;//音楽の管理用
+};
