@@ -1,258 +1,201 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
+    <Filter Include="学校ライブラリ">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="オリジナルファイル">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="オリジナルファイル\タイトル">
+      <UniqueIdentifier>{62b08113-905d-487d-beec-226bf313e251}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="オリジナルファイル\COMモード">
+      <UniqueIdentifier>{0a6554dd-a82d-4523-bf2a-74bf69b63bbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="オリジナルファイル\オフライン対戦">
+      <UniqueIdentifier>{dd75e478-e73e-4ebd-9857-48a9dd48e08d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="オリジナルファイル\オフラインモード、COMモード共通">
+      <UniqueIdentifier>{b83cb366-4a95-4baf-9f2d-82ef682e159d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="オリジナルファイル\関数">
+      <UniqueIdentifier>{e0c07765-d980-4a4c-9f1b-27715431ec49}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="オリジナルファイル\タイトル\説明">
+      <UniqueIdentifier>{eb1a045c-5aa2-4d36-b9f1-834a7f8b67cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="オリジナルファイル\タイトル\ランキング">
+      <UniqueIdentifier>{7e1e6364-a6b9-4502-8b03-3366fdd26f5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="オリジナルファイル\オフラインモード、COMモード共通\ゲームオーバー">
+      <UniqueIdentifier>{0eadd986-584d-448a-8e12-6ba7cdf8dd88}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameL\Audio.cpp">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClCompile>
     <ClCompile Include="GameL\DirectXDevice.cpp">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClCompile>
     <ClCompile Include="GameL\DrawFont.cpp">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClCompile>
     <ClCompile Include="GameL\DrawTexture.cpp">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClCompile>
     <ClCompile Include="GameL\GameL_Main.cpp">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClCompile>
     <ClCompile Include="GameL\HitBoxManager.cpp">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClCompile>
     <ClCompile Include="GameL\MultiThread.cpp">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClCompile>
     <ClCompile Include="GameL\ObjTitle.cpp">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClCompile>
     <ClCompile Include="GameL\SceneManager.cpp">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClCompile>
     <ClCompile Include="GameL\SceneObjManager.cpp">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClCompile>
     <ClCompile Include="GameL\SetWindow.cpp">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClCompile>
     <ClCompile Include="GameL\UserData.cpp">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClCompile>
     <ClCompile Include="GameL\WinInputs.cpp">
-      <Filter>リソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CObjBlock.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CObjBullet.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CObjHero.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CObjHero_R.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CObjIntervention.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Function.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjBackground.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjCP.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjExBlock.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjExplanation.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjExplanation2.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjExplanation3.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjExplanation4.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjGameOver.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjMain.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClCompile>
     <ClCompile Include="ObjModeChoice.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjNameInput.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjRanking.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjScore.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>オリジナルファイル\タイトル</Filter>
     </ClCompile>
     <ClCompile Include="ObjTitle.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>オリジナルファイル\タイトル</Filter>
     </ClCompile>
-    <ClCompile Include="SceneGameOver.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneMain.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneNameInput.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneRanking.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="ObjCP.cpp">
+      <Filter>オリジナルファイル\COMモード</Filter>
     </ClCompile>
     <ClCompile Include="SceneTitle.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>オリジナルファイル\タイトル</Filter>
     </ClCompile>
     <ClCompile Include="SceneVsCP.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>オリジナルファイル\COMモード</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjHero_R.cpp">
+      <Filter>オリジナルファイル\オフライン対戦</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjBlock.cpp">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjBullet.cpp">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjHero.cpp">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjIntervention.cpp">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjBackground.cpp">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjMain.cpp">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjScore.cpp">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMain.cpp">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClCompile>
+    <ClCompile Include="Function.cpp">
+      <Filter>オリジナルファイル\関数</Filter>
     </ClCompile>
     <ClCompile Include="UtilityModule.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>オリジナルファイル\関数</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjExBlock.cpp">
+      <Filter>オリジナルファイル\タイトル\説明</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjExplanation.cpp">
+      <Filter>オリジナルファイル\タイトル\説明</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjExplanation2.cpp">
+      <Filter>オリジナルファイル\タイトル\説明</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjExplanation3.cpp">
+      <Filter>オリジナルファイル\タイトル\説明</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjExplanation4.cpp">
+      <Filter>オリジナルファイル\タイトル\説明</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjNameInput.cpp">
+      <Filter>オリジナルファイル\タイトル\ランキング</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjRanking.cpp">
+      <Filter>オリジナルファイル\タイトル\ランキング</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneNameInput.cpp">
+      <Filter>オリジナルファイル\タイトル\ランキング</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneRanking.cpp">
+      <Filter>オリジナルファイル\タイトル\ランキング</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjGameOver.cpp">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通\ゲームオーバー</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGameOver.cpp">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通\ゲームオーバー</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameL\Audio.h">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClInclude>
     <ClInclude Include="GameL\DirectXDevice.h">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClInclude>
     <ClInclude Include="GameL\DrawFont.h">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClInclude>
     <ClInclude Include="GameL\DrawTexture.h">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClInclude>
     <ClInclude Include="GameL\HitBoxManager.h">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClInclude>
     <ClInclude Include="GameL\MultiThread.h">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClInclude>
     <ClInclude Include="GameL\ObjTitle.h">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClInclude>
     <ClInclude Include="GameL\SceneManager.h">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClInclude>
     <ClInclude Include="GameL\SceneObjManager.h">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClInclude>
     <ClInclude Include="GameL\SetWindow.h">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClInclude>
     <ClInclude Include="GameL\UserData.h">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClInclude>
     <ClInclude Include="GameL\WinInputs.h">
-      <Filter>リソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CObjBlock.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CObjBullet.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CObjHero.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CobjHero_R.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CObjIntervention.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Function.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjBackground.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjCP.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjExBlock.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjExplanation.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjExplanation2.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjExplanation3.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjExplanation4.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjGameOver.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjMain.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjModeChoice.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjNameInput.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjRanking.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjScore.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjTitle.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneGameOver.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneMain.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneNameInput.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneRanking.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneTitle.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneVsCP.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="UtilityModule.h">
-      <Filter>ソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -260,10 +203,91 @@
     <ClInclude Include="GameHead.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="ObjModeChoice.h">
+      <Filter>オリジナルファイル\タイトル</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjTitle.h">
+      <Filter>オリジナルファイル\タイトル</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjCP.h">
+      <Filter>オリジナルファイル\COMモード</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneTitle.h">
+      <Filter>オリジナルファイル\タイトル</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneVsCP.h">
+      <Filter>オリジナルファイル\COMモード</Filter>
+    </ClInclude>
+    <ClInclude Include="CobjHero_R.h">
+      <Filter>オリジナルファイル\オフライン対戦</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjBlock.h">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjBullet.h">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjHero.h">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjIntervention.h">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjBackground.h">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjMain.h">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjScore.h">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMain.h">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通</Filter>
+    </ClInclude>
+    <ClInclude Include="Function.h">
+      <Filter>オリジナルファイル\関数</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilityModule.h">
+      <Filter>オリジナルファイル\関数</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjExBlock.h">
+      <Filter>オリジナルファイル\タイトル\説明</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjExplanation.h">
+      <Filter>オリジナルファイル\タイトル\説明</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjExplanation2.h">
+      <Filter>オリジナルファイル\タイトル\説明</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjExplanation3.h">
+      <Filter>オリジナルファイル\タイトル\説明</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjExplanation4.h">
+      <Filter>オリジナルファイル\タイトル\説明</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjNameInput.h">
+      <Filter>オリジナルファイル\タイトル\ランキング</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjRanking.h">
+      <Filter>オリジナルファイル\タイトル\ランキング</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneNameInput.h">
+      <Filter>オリジナルファイル\タイトル\ランキング</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneRanking.h">
+      <Filter>オリジナルファイル\タイトル\ランキング</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjGameOver.h">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通\ゲームオーバー</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGameOver.h">
+      <Filter>オリジナルファイル\オフラインモード、COMモード共通\ゲームオーバー</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="GameL\Draw2DTex.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>学校ライブラリ</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
