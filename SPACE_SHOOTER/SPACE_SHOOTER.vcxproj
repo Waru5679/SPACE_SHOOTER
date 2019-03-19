@@ -32,7 +32,6 @@
     <ClCompile Include="GameL\GameL_Main.cpp" />
     <ClCompile Include="GameL\HitBoxManager.cpp" />
     <ClCompile Include="GameL\MultiThread.cpp" />
-    <ClCompile Include="GameL\ObjTitle.cpp" />
     <ClCompile Include="GameL\SceneManager.cpp" />
     <ClCompile Include="GameL\SceneObjManager.cpp" />
     <ClCompile Include="GameL\SetWindow.cpp" />
@@ -74,7 +73,6 @@
     <ClInclude Include="GameL\DrawTexture.h" />
     <ClInclude Include="GameL\HitBoxManager.h" />
     <ClInclude Include="GameL\MultiThread.h" />
-    <ClInclude Include="GameL\ObjTitle.h" />
     <ClInclude Include="GameL\SceneManager.h" />
     <ClInclude Include="GameL\SceneObjManager.h" />
     <ClInclude Include="GameL\SetWindow.h" />
@@ -106,16 +104,13 @@
   <ItemGroup>
     <FxCompile Include="GameL\Draw2DTex.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{8A17A7C7-9E2B-4048-98CC-4DEE170EE19C}</ProjectGuid>
     <RootNamespace>SPACESHOOTER</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -163,8 +158,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\DirectX\SDK%28VisualStdio2017用%29\Include;$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\DirectX\SDK%28Jun2010%29\Lib\x86;$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>

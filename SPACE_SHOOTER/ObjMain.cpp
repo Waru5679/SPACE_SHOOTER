@@ -1031,8 +1031,8 @@ void CObjMain::VictoryProcess(bool vs_CP)
 			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);//タイトルオブジェクト作成
 
 			//機体を行動不能にする------
-			obj_h->EndFlag_ON();
-			obj_hr->EndFlag_ON();
+			obj_h->EndFlagON();
+			obj_hr->EndFlagON();
 			//------------------------------
 		}
 		if(vs_CP==true)
@@ -1044,8 +1044,8 @@ void CObjMain::VictoryProcess(bool vs_CP)
 			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);//タイトルオブジェクト作成
 
 			//機体を行動不能にする------
-			obj_h->EndFlag_ON();
-			obj_cp->EndFlag_ON();
+			obj_h->EndFlagON();
+			obj_cp->EndFlagON();
 			//------------------------------
 		}
 		flag = true;
@@ -1058,8 +1058,8 @@ void CObjMain::VictoryProcess(bool vs_CP)
 			CObjGameOver* obj_win_lose = new CObjGameOver(1);//タイトルオブジェクト作成
 			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);//タイトルオブジェクト作成
 			//機体を行動不能にする------
-			obj_h->EndFlag_ON();
-			obj_hr->EndFlag_ON();
+			obj_h->EndFlagON();
+			obj_hr->EndFlagON();
 			//------------------------------
 		}
 		if(vs_CP==true)//CP戦なら
@@ -1069,8 +1069,8 @@ void CObjMain::VictoryProcess(bool vs_CP)
 			CObjGameOver* obj_win_lose = new CObjGameOver(1);//タイトルオブジェクト作成
 			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);//タイトルオブジェクト作成
 			//機体を行動不能にする------
-			obj_h->EndFlag_ON();
-			obj_cp->EndFlag_ON();
+			obj_h->EndFlagON();
+			obj_cp->EndFlagON();
 			//------------------------------
 		}
 		flag = true;
@@ -1083,8 +1083,8 @@ void CObjMain::VictoryProcess(bool vs_CP)
 			CObjGameOver* obj_win_lose = new CObjGameOver(2);//ゲームオーバーオブジェクト作成
 			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);//ゲームオーバーオブジェクト作成
 			//機体を行動不能にする------
-			obj_h->EndFlag_ON();
-			obj_hr->EndFlag_ON();
+			obj_h->EndFlagON();
+			obj_hr->EndFlagON();
 			//------------------------------
 		}
 		if(vs_CP==true)//CP戦なら
@@ -1094,8 +1094,8 @@ void CObjMain::VictoryProcess(bool vs_CP)
 			CObjGameOver* obj_win_lose = new CObjGameOver(2);//ゲームオーバーオブジェクト作成
 			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);//ゲームオーバーオブジェクト作成
 			//機体を行動不能にする------
-			obj_h->EndFlag_ON();
-			obj_cp->EndFlag_ON();
+			obj_h->EndFlagON();
+			obj_cp->EndFlagON();
 			//------------------------------
 		}
 

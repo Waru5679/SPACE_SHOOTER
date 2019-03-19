@@ -19,7 +19,7 @@ public:
 	void Shot();		//弾を打つ関数
 	void Shot_move();	//移動と回転、弾を撃つ処理をする関数
 
-	void EndFlag_ON(){m_end_flag=true;}//ゲームオブジェクトフラグをオンにする
+	void EndFlagON(){m_end_flag=true;}//ゲームオブジェクトフラグをオンにする
 	
 	void Block_Pos_Save();//ブロックを生成する予定位置の保存
 	

@@ -39,45 +39,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameL\Audio.cpp">
-      <Filter>学校ライブラリ</Filter>
-    </ClCompile>
-    <ClCompile Include="GameL\DirectXDevice.cpp">
-      <Filter>学校ライブラリ</Filter>
-    </ClCompile>
-    <ClCompile Include="GameL\DrawFont.cpp">
-      <Filter>学校ライブラリ</Filter>
-    </ClCompile>
-    <ClCompile Include="GameL\DrawTexture.cpp">
-      <Filter>学校ライブラリ</Filter>
-    </ClCompile>
-    <ClCompile Include="GameL\GameL_Main.cpp">
-      <Filter>学校ライブラリ</Filter>
-    </ClCompile>
-    <ClCompile Include="GameL\HitBoxManager.cpp">
-      <Filter>学校ライブラリ</Filter>
-    </ClCompile>
-    <ClCompile Include="GameL\MultiThread.cpp">
-      <Filter>学校ライブラリ</Filter>
-    </ClCompile>
-    <ClCompile Include="GameL\ObjTitle.cpp">
-      <Filter>学校ライブラリ</Filter>
-    </ClCompile>
-    <ClCompile Include="GameL\SceneManager.cpp">
-      <Filter>学校ライブラリ</Filter>
-    </ClCompile>
-    <ClCompile Include="GameL\SceneObjManager.cpp">
-      <Filter>学校ライブラリ</Filter>
-    </ClCompile>
-    <ClCompile Include="GameL\SetWindow.cpp">
-      <Filter>学校ライブラリ</Filter>
-    </ClCompile>
-    <ClCompile Include="GameL\UserData.cpp">
-      <Filter>学校ライブラリ</Filter>
-    </ClCompile>
-    <ClCompile Include="GameL\WinInputs.cpp">
-      <Filter>学校ライブラリ</Filter>
-    </ClCompile>
     <ClCompile Include="ObjModeChoice.cpp">
       <Filter>オリジナルファイル\タイトル</Filter>
     </ClCompile>
@@ -159,44 +120,44 @@
     <ClCompile Include="SceneGameOver.cpp">
       <Filter>オリジナルファイル\オフラインモード、COMモード共通\ゲームオーバー</Filter>
     </ClCompile>
+    <ClCompile Include="GameL\Audio.cpp">
+      <Filter>学校ライブラリ</Filter>
+    </ClCompile>
+    <ClCompile Include="GameL\DirectXDevice.cpp">
+      <Filter>学校ライブラリ</Filter>
+    </ClCompile>
+    <ClCompile Include="GameL\DrawFont.cpp">
+      <Filter>学校ライブラリ</Filter>
+    </ClCompile>
+    <ClCompile Include="GameL\DrawTexture.cpp">
+      <Filter>学校ライブラリ</Filter>
+    </ClCompile>
+    <ClCompile Include="GameL\GameL_Main.cpp">
+      <Filter>学校ライブラリ</Filter>
+    </ClCompile>
+    <ClCompile Include="GameL\HitBoxManager.cpp">
+      <Filter>学校ライブラリ</Filter>
+    </ClCompile>
+    <ClCompile Include="GameL\MultiThread.cpp">
+      <Filter>学校ライブラリ</Filter>
+    </ClCompile>
+    <ClCompile Include="GameL\SceneManager.cpp">
+      <Filter>学校ライブラリ</Filter>
+    </ClCompile>
+    <ClCompile Include="GameL\SceneObjManager.cpp">
+      <Filter>学校ライブラリ</Filter>
+    </ClCompile>
+    <ClCompile Include="GameL\SetWindow.cpp">
+      <Filter>学校ライブラリ</Filter>
+    </ClCompile>
+    <ClCompile Include="GameL\UserData.cpp">
+      <Filter>学校ライブラリ</Filter>
+    </ClCompile>
+    <ClCompile Include="GameL\WinInputs.cpp">
+      <Filter>学校ライブラリ</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameL\Audio.h">
-      <Filter>学校ライブラリ</Filter>
-    </ClInclude>
-    <ClInclude Include="GameL\DirectXDevice.h">
-      <Filter>学校ライブラリ</Filter>
-    </ClInclude>
-    <ClInclude Include="GameL\DrawFont.h">
-      <Filter>学校ライブラリ</Filter>
-    </ClInclude>
-    <ClInclude Include="GameL\DrawTexture.h">
-      <Filter>学校ライブラリ</Filter>
-    </ClInclude>
-    <ClInclude Include="GameL\HitBoxManager.h">
-      <Filter>学校ライブラリ</Filter>
-    </ClInclude>
-    <ClInclude Include="GameL\MultiThread.h">
-      <Filter>学校ライブラリ</Filter>
-    </ClInclude>
-    <ClInclude Include="GameL\ObjTitle.h">
-      <Filter>学校ライブラリ</Filter>
-    </ClInclude>
-    <ClInclude Include="GameL\SceneManager.h">
-      <Filter>学校ライブラリ</Filter>
-    </ClInclude>
-    <ClInclude Include="GameL\SceneObjManager.h">
-      <Filter>学校ライブラリ</Filter>
-    </ClInclude>
-    <ClInclude Include="GameL\SetWindow.h">
-      <Filter>学校ライブラリ</Filter>
-    </ClInclude>
-    <ClInclude Include="GameL\UserData.h">
-      <Filter>学校ライブラリ</Filter>
-    </ClInclude>
-    <ClInclude Include="GameL\WinInputs.h">
-      <Filter>学校ライブラリ</Filter>
-    </ClInclude>
     <ClInclude Include="main.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -283,6 +244,39 @@
     </ClInclude>
     <ClInclude Include="SceneGameOver.h">
       <Filter>オリジナルファイル\オフラインモード、COMモード共通\ゲームオーバー</Filter>
+    </ClInclude>
+    <ClInclude Include="GameL\Audio.h">
+      <Filter>学校ライブラリ</Filter>
+    </ClInclude>
+    <ClInclude Include="GameL\DirectXDevice.h">
+      <Filter>学校ライブラリ</Filter>
+    </ClInclude>
+    <ClInclude Include="GameL\DrawFont.h">
+      <Filter>学校ライブラリ</Filter>
+    </ClInclude>
+    <ClInclude Include="GameL\DrawTexture.h">
+      <Filter>学校ライブラリ</Filter>
+    </ClInclude>
+    <ClInclude Include="GameL\HitBoxManager.h">
+      <Filter>学校ライブラリ</Filter>
+    </ClInclude>
+    <ClInclude Include="GameL\MultiThread.h">
+      <Filter>学校ライブラリ</Filter>
+    </ClInclude>
+    <ClInclude Include="GameL\SceneManager.h">
+      <Filter>学校ライブラリ</Filter>
+    </ClInclude>
+    <ClInclude Include="GameL\SceneObjManager.h">
+      <Filter>学校ライブラリ</Filter>
+    </ClInclude>
+    <ClInclude Include="GameL\SetWindow.h">
+      <Filter>学校ライブラリ</Filter>
+    </ClInclude>
+    <ClInclude Include="GameL\UserData.h">
+      <Filter>学校ライブラリ</Filter>
+    </ClInclude>
+    <ClInclude Include="GameL\WinInputs.h">
+      <Filter>学校ライブラリ</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
