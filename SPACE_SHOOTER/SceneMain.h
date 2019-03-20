@@ -9,10 +9,7 @@ using namespace GameL;
 class CSceneMain:public CScene
 {
 public:
-	CSceneMain();
-	~CSceneMain();
-	void InitScene();//ゲームメインの初期化のメソッド
-	void Scene();//ゲームメインの実行中のメソッド
+	void InitScene();	//ゲームメインの初期化のメソッド
+	void Scene() {};		//ゲームメインの実行中のメソッド
 private:
-	int m_time;//シーンのタイム
 };

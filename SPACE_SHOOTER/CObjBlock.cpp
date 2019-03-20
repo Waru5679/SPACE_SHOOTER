@@ -79,7 +79,7 @@ void CObjBlock::Action()
 	CObjMain * obj =(CObjMain*)Objs ::GetObj(OBJ_MAIN);
 
 	//ゲームオーバーオブジェクトの有無を調べる
-	m_gemeover_check = obj->ReturnFlag();
+	m_gemeover_check = obj->GameOverCheck();
 
 	//ゲームオーバーオブジェクトがあれば
 	if(m_gemeover_check == true)	return ;
@@ -101,7 +101,7 @@ void CObjBlock::Action()
 	//-----------------------------------------------------------------------
 		
 	//消滅処理-----------------------------------------
-	if(obj->Return_Num(m_px,m_py)==98)//98が入っていれば
+	if(obj->ReturnNum(m_px,m_py)==98)//98が入っていれば
 	{
 		m_del=true; //消滅処理のフラグを立てる
 	}
@@ -152,7 +152,7 @@ void CObjBlock::Action()
 		obj->Enter(m_px,m_py,m_color);//移動後の位置に自分の色を入れる
 	
 	//ストップフラグ更新
-	obj->Enter_Stop_flag(m_px,m_py,m_stop_flag);
+	obj->EnterStopFlag(m_px,m_py,m_stop_flag);
 	//処理フラグ更新
 	obj->Processflag(m_px,m_py,m_Processing_flag);
 	//-------------------------------------------------
@@ -200,7 +200,7 @@ void CObjBlock::Move()
 		//左
 
 		obj->Enter(m_px,m_py,99);//移動前の位置を99にする
-		obj->StopFlag_OFF(m_px,m_py);//移動前の位置のストップフラグをオフにする
+		obj->StopFlagOff(m_px,m_py);//移動前の位置のストップフラグをオフにする
 				
 		m_px+=m_vx;//位置の更新
 	}
@@ -212,7 +212,7 @@ void CObjBlock::Move()
 		{	
 			obj->Enter(m_px,m_py,99);//移動前の位置を99にする
 		}
-		obj->StopFlag_OFF(m_px,m_py);//移動前の位置のストップフラグをオフにする
+		obj->StopFlagOff(m_px,m_py);//移動前の位置のストップフラグをオフにする
 				
 		m_px+=m_vx;//位置の更新
 	}
@@ -243,8 +243,8 @@ bool CObjBlock::MoveCheck(int x,int y)
 	//メインオブジェクトの呼び出し
 	CObjMain * obj =(CObjMain*)Objs ::GetObj(OBJ_MAIN);
 
-	num_check  = obj->Return_Num(x,y);//一つ先の数を持ってくる
-	stop_check = obj->Return_Stop_Flag(x,y);//一つ先のストップフラグを持ってくる
+	num_check  = obj->ReturnNum(x,y);//一つ先の数を持ってくる
+	stop_check = obj->ReturnStopFlag(x,y);//一つ先のストップフラグを持ってくる
 
 	//もし一つ先がカラーブロックなら（おじゃま6含む）
 	if( (0 <= num_check ) && ( num_check <= 6 ) )
@@ -306,7 +306,7 @@ void CObjBlock::Left_Dis()
 	//メインオブジェクトの呼び出し
 	CObjMain * obj =(CObjMain*)Objs ::GetObj(OBJ_MAIN);
 
-	int n=obj->Return_Num(m_px-1,m_py);//一つ左のマスの数値を保存する
+	int n=obj->ReturnNum(m_px-1,m_py);//一つ左のマスの数値を保存する
 	
 	static int lplayerblockcheck=0;
 	bool m_wh;//ブロックの向きを保存　true:横　false:縦
@@ -368,8 +368,7 @@ void CObjBlock::Right_Dis()
 	//メインオブジェクトの呼び出し
 	CObjMain * obj =(CObjMain*)Objs ::GetObj(OBJ_MAIN);
 	
-	// 2017-06-26 (m_px-1 -> m_px+1)
-	int n=obj->Return_Num(m_px+1,m_py);//一つ右のマスの数値を記憶する
+	int n=obj->ReturnNum(m_px+1,m_py);//一つ右のマスの数値を記憶する
 
 	bool m_wh;//true：横　false：縦
 	static int rplayerblockcheck=0;

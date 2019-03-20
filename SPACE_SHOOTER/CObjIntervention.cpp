@@ -53,7 +53,7 @@ void CObjIntervention::Action()
 	CObjMain * obj =(CObjMain*)Objs ::GetObj(OBJ_MAIN);
 
 	//ゲームオーバーオブジェクトの有無を調べる
-	m_gameover_check = obj->ReturnFlag();
+	m_gameover_check = obj->GameOverCheck();
 	
 	//ゲームオーバーオブジェクトがあれば
 	if(m_gameover_check==true) return;
@@ -96,7 +96,7 @@ void CObjIntervention::Action()
 		
 	//マップ構造体の更新
 	obj->Enter(m_px,m_py,6);//お邪魔ブロックは6番に設定
-	obj->Enter_Stop_flag(m_px,m_py,m_stop_flag);//ストップフラグをマップ構造体に入れる
+	obj->EnterStopFlag(m_px,m_py,m_stop_flag);//ストップフラグをマップ構造体に入れる
 	obj->Processflag(m_px,m_py,m_Processing_flag);//消滅処理用のフラグをマップに入れる
 
 	//hitboxの更新
@@ -135,7 +135,7 @@ void CObjIntervention::Move()
 		if( m_px+m_vx<=9 )//移動先が中央より左でかつ移動可能なら
 		{
 			obj->Enter(m_px,m_py,99);//移動前の位置を99にする
-			obj->StopFlag_OFF(m_px,m_py);//移動前の位置のストップフラグをオフにする
+			obj->StopFlagOff(m_px,m_py);//移動前の位置のストップフラグをオフにする
 		
 			m_px+=m_vx;//位置を更新
 		}
@@ -151,7 +151,7 @@ void CObjIntervention::Move()
 		if( m_px+m_vx>=10 )//移動先が中央より右でかつ移動可能なら
 		{
 			obj->Enter(m_px,m_py,99);//移動前の位置を99にする
-			obj->StopFlag_OFF(m_px,m_py);//移動前の位置のストップフラグをオフにする
+			obj->StopFlagOff(m_px,m_py);//移動前の位置のストップフラグをオフにする
 			
 			m_px+=m_vx;//位置を更新
 		}

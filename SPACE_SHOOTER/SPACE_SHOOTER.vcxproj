@@ -104,6 +104,7 @@
   <ItemGroup>
     <FxCompile Include="GameL\Draw2DTex.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -162,8 +163,8 @@
     <LibraryPath>C:\DirectX\SDK%28Jun2010%29\Lib\x86;$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\DirectX\SDK%28VisualStdio2017用%29\Include;$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\DirectX\SDK%28Jun2010%29\Lib\x86;$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>

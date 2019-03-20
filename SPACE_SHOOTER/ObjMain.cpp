@@ -19,41 +19,41 @@ using namespace GameL;
 //ƒCƒjƒVƒƒƒ‰ƒCƒY
 void CObjMain::Init()
 {
+	//MAP\‘¢‘Ì‚Ì‰Šú‰»
 	for(int i=0;i<7;i++)
 	{
 		for(int j=0;j<20;j++)
 		{
-			//MAP\‘¢‘Ì‚Ì‰Šú‰»
-			m_map[i][j].num=99;
-			m_map[i][j].obj_check=false;
-			m_map[i][j].obj_time=0;
-			m_map[i][j].stop_flag=false;
-			m_map[i][j].process_check=true;
-			m_map[i][j].before_num=99;
-			m_map[i][j].stop_time=0;
+			m_map[i][j].Num = 99;
+			m_map[i][j].BeforeNum = 99;
+			m_map[i][j].StopTime = 0;
+			m_map[i][j].ObjTime = 0;
+			m_map[i][j].bCreate	= false;
+			m_map[i][j].bStop = false;
+			m_map[i][j].bProcess = true;
 		}
 	}
 
 	//Ÿ—˜”»’èƒtƒ‰ƒO‰Šú‰»
-	m_vc_r=false;
-	m_vc_l-false;
+	m_bLeftWin=false;
+	m_bRightWin-false;
 
 	//ƒXƒ^[ƒgƒJƒEƒ“ƒgƒ_ƒEƒ“
-	m_count_time=0;
+	m_CountTime=0;
 
 	//•¶š‚ª‘å‚«‚­‚È‚éŠÔ
-	font_big_time=0.0f;
+	m_FontBigTime=0;
 
 	//ƒ‰ƒ“ƒLƒ“ƒO—pƒ^ƒCƒ€‚Ì‰Šú‰»
-	m_time = 0;
+	m_Time = 0;
 
 	//ƒQ[ƒ€ƒI[ƒo[ŠÇ—
-	flag = false;
+	m_bGameOver = false;
 
 	//AI—p
 	for(int i=0;i<7;i++)
 	{
-		BlockStopPoint[i]=19;//ƒuƒƒbƒN‚Ì~‚Ü‚éˆÊ’u
+		m_BlockStopPoint[i]=19;//ƒuƒƒbƒN‚Ì~‚Ü‚éˆÊ’u
 	}
 }
 
@@ -61,130 +61,135 @@ void CObjMain::Init()
 void CObjMain::Action()
 {
 	//Ÿ•‰‚ªI‚í‚Á‚Ä‚¢‚ê‚Î‚È‚É‚à‚µ‚È‚¢
-	if (flag == true) return;
+	if (m_bGameOver == true) return;
 
-	m_count_time++;
+	m_CountTime++;
 
-	if (m_count_time > 270)//ƒXƒ^[ƒg‚Ì•\¦‚ªI‚í‚Á‚Ä‚¢‚ê‚Î
+	//ƒXƒ^[ƒg‚Ì•\¦‚ªI‚í‚Á‚Ä‚¢‚ê‚Î
+	if (m_CountTime > 270)
 	{
-		if ((m_count_time - 270) % 60 == 0)	//60f–ˆ(1•b‚²‚Æ)‚É
-			m_time++;				//ƒ‰ƒ“ƒLƒ“ƒO—p‚Ìƒ^ƒCƒ€‚ÌXV
+		//ƒ‰ƒ“ƒLƒ“ƒO—p‚Ìƒ^ƒCƒ€Œv‘ª
+		if ((m_CountTime - 270) % 60 == 0)
+			m_Time++;				
 	}
 
 	//ƒq[ƒ[ƒIƒuƒWƒFƒNƒg‚ÌŒÄ‚Ño‚µ
-	CObjHero * obj_h =(CObjHero*)Objs ::GetObj(OBJ_HERO);		//¶
-	CObjHero_R * obj_hr =(CObjHero_R*)Objs ::GetObj(OBJ_HERO_R);//‰E
+	CObjHero * obj_h =(CObjHero*)Objs ::GetObj(OBJ_HERO);		
+	CObjHero_R * obj_hr =(CObjHero_R*)Objs ::GetObj(OBJ_HERO_R);
 	
-	//-----------------------------------------
-	//ƒe[ƒuƒ‹ƒqƒbƒg˜A½ƒ`ƒFƒbƒN
-	// ‚Vs‚Q‚O—ñ
-	//-----------------------------------------
-	for(int i=0;i<7;i++)
+	//ƒ}ƒbƒvî•ñXV
+	MapUpdate();
+
+	//Ÿ”s”»’è
+	m_bLeftWin=VictoryCheck(true);//¶
+	m_bRightWin=VictoryCheck(false);//‰E
+	
+	if(m_bGameOver == false)
 	{
-		for(int j=0;j<20;j++)
+		VictoryProcess(m_bCpBattle);//Ÿ—˜”»’è‚ğ‚İ‚½‚µ‚Ä‚¢‚é‚©’²‚×A–‚½‚µ‚Ä‚¢‚ê‚Îˆ—‚ğ‚·‚é
+	}
+}
+
+//ƒ}ƒbƒvXV
+void CObjMain::MapUpdate()
+{
+	//Mapî•ñXV
+	for (int i = 0; i < 7; i++)
+	{
+		for (int j = 0; j < 20; j++)
 		{
 			//‘O‰ñ‚Ìˆ—‚Æ“¯‚¶”’l‚ª“ü‚Á‚Ä‚¢‚ê‚Î
-			if(m_map[i][j].num == m_map[i][j].before_num)
-				m_map[i][j].stop_time++;//ƒXƒgƒbƒvƒ^ƒCƒ€‚ğ‘‚â‚·
+			if (m_map[i][j].Num == m_map[i][j].BeforeNum)
+				m_map[i][j].StopTime++;//ƒXƒgƒbƒvƒ^ƒCƒ€‚ğ‘‚â‚·
 			else
-				m_map[i][j].stop_time=0;//ƒXƒgƒbƒvƒ^ƒCƒ€‚ğ‚O‚É–ß‚·
-			
+				m_map[i][j].StopTime = 0;//ƒXƒgƒbƒvƒ^ƒCƒ€‚ğ0‚É–ß‚·
+
 			//FƒuƒƒbƒN‚ª“ü‚Á‚Ä‚¢‚ê‚Î
-			if( m_map[i][j].num < 6)
+			if (m_map[i][j].Num < 6)
 			{
 				//ƒIƒuƒWƒFƒNƒg¶¬ƒtƒ‰ƒO‚ªƒIƒ“‚È‚ç
-				if(m_map[i][j].obj_check==true)
+				if (m_map[i][j].bCreate == true)
 				{
 					//“Áê‚ÈƒP[ƒX@‰E’[ ‰¡Œü‚«‚Ì‚Æ‚«
-					if(j==18 && ( m_map[i][19].num < 6) )//18”Ô–Ú‚Å19”Ô–Ú‚É‚àƒuƒƒbƒN‚ª“ü‚Á‚Ä‚¢‚éê‡i‰E‘¤‚Å‰¡Œü‚«‚É‚¤‚Á‚½‚Æ‚«
+					//18”Ô–Ú‚Å19”Ô–Ú‚É‚àƒuƒƒbƒN‚ª“ü‚Á‚Ä‚¢‚éê‡i‰E‘¤‚Å‰¡Œü‚«‚É‚¤‚Á‚½‚Æ‚«
+					if (j == 18 && (m_map[i][19].Num < 6))
 					{
-						CObjBlock* obj_b=new CObjBlock(j,i,m_map[i][j].num,false,true);
-						Objs::InsertObj(obj_b,OBJ_BLOCK,10);
-						m_map[i][j].obj_check=false;//ƒIƒuƒWƒFƒNƒg¶¬ƒtƒ‰ƒO‚ğƒIƒt‚É‚·‚é
-						m_map[i][j].stop_flag=false;//ƒuƒƒbƒN¶¬ˆÊ’u‚ÌƒXƒgƒbƒvƒtƒ‰ƒO‚ğƒIƒt‚É‚·‚é
-						m_map[i][j].obj_time=0;//ƒIƒuƒWƒFƒNƒg¶¬ƒ^ƒCƒ€‚ğƒŠƒZƒbƒg‚·‚é
+						//ƒuƒƒbƒNì¬
+						CObjBlock* obj_b = new CObjBlock(j, i, m_map[i][j].Num, false, true);
+						Objs::InsertObj(obj_b, OBJ_BLOCK, 10);
+
+						m_map[i][j].bCreate = false;	//ƒIƒuƒWƒFƒNƒg¶¬ƒtƒ‰ƒO‚ğƒIƒt‚É‚·‚é
+						m_map[i][j].bStop = false;	//ƒuƒƒbƒN¶¬ˆÊ’u‚ÌƒXƒgƒbƒvƒtƒ‰ƒO‚ğƒIƒt‚É‚·‚é
+						m_map[i][j].ObjTime = 0;		//ƒIƒuƒWƒFƒNƒg¶¬ƒ^ƒCƒ€‚ğƒŠƒZƒbƒg‚·‚é
 					}
-					else//•’Ê‚ÌƒP[ƒX
+					//•’Ê‚ÌƒP[ƒX
+					else
 					{
-						if(j<=9) //¶‘¤—p‚ÌƒuƒƒbƒN¶¬
+						//¶‘¤—p‚ÌƒuƒƒbƒN¶¬
+						if (j <= 9)
 						{
-							CObjBlock* obj_b=new CObjBlock(j,i,m_map[i][j].num,
-										true,false);
-							Objs::InsertObj(obj_b,OBJ_BLOCK,10);
-						
+							CObjBlock* obj_b = new CObjBlock(j, i, m_map[i][j].Num, true, false);
+							Objs::InsertObj(obj_b, OBJ_BLOCK, 10);
 						}
-						else if(j>=10) //‰E‘¤—p‚ÌƒuƒƒbƒN¶¬@//2017-05-26 ”­Œ© > -> >=
+						//‰E‘¤—p‚ÌƒuƒƒbƒN¶¬
+						else if (j >= 10)
 						{
-							CObjBlock* obj_b=new CObjBlock(j,i,m_map[i][j].num,
-										false,false);
-							Objs::InsertObj(obj_b,OBJ_BLOCK,10);					
+							CObjBlock* obj_b = new CObjBlock(j, i, m_map[i][j].Num, false, false);
+							Objs::InsertObj(obj_b, OBJ_BLOCK, 10);
 						}
-						m_map[i][j].obj_check=false;//ƒIƒuƒWƒFƒNƒg¶¬ƒtƒ‰ƒO‚ğƒIƒt‚É‚·‚é
-						m_map[i][j].stop_flag=false;//ƒuƒƒbƒN¶¬ˆÊ’u‚ÌƒXƒgƒbƒvƒtƒ‰ƒO‚ğƒIƒt‚É‚·‚é
-						m_map[i][j].obj_time=0;//ƒIƒuƒWƒFƒNƒg¶¬ƒ^ƒCƒ€‚ğƒŠƒZƒbƒg‚·‚é
+
+						m_map[i][j].bCreate = false;//ƒIƒuƒWƒFƒNƒg¶¬ƒtƒ‰ƒO‚ğƒIƒt‚É‚·‚é
+						m_map[i][j].bStop = false;	//ƒuƒƒbƒN¶¬ˆÊ’u‚ÌƒXƒgƒbƒvƒtƒ‰ƒO‚ğƒIƒt‚É‚·‚é
+						m_map[i][j].ObjTime = 0;		//ƒIƒuƒWƒFƒNƒg¶¬ƒ^ƒCƒ€‚ğƒŠƒZƒbƒg‚·‚é
 					}
-				}//¶¬ƒtƒ‰ƒbƒOƒIƒ“@ENDif	
+				}
 			}
-			//---------------------------------
-			//‚¨×–‚ƒuƒƒbƒN@6
-			//---------------------------------
-			if(m_map[i][j].num==6)
+			//‚¨×–‚ƒuƒƒbƒN
+			if (m_map[i][j].Num == 6)
 			{
 				//ƒIƒuƒWƒFƒNƒg¶¬ƒtƒ‰ƒO‚ªƒIƒ“‚È‚ç
-				if(m_map[i][j].obj_check==true)
+				if (m_map[i][j].bCreate == true)
 				{
-					if(j<10)
+					//¶‘¤—p‚ÌƒuƒƒbƒN¶¬
+					if (j <= 9)
 					{
-						CObjIntervention* obj_i=new CObjIntervention(j,i,true);
-						Objs::InsertObj(obj_i,OBJ_INTERVENTION,10);
-						m_map[i][j].obj_check=false;//ƒIƒuƒWƒFƒNƒg¶¬ƒtƒ‰ƒO‚ğƒIƒt‚É‚·‚é
-						m_map[i][j].stop_flag=false;//ƒuƒƒbƒN¶¬ˆÊ’u‚ÌƒXƒgƒbƒvƒtƒ‰ƒO‚ğƒIƒt‚É‚·‚é
-						m_map[i][j].obj_time=0;//ƒIƒuƒWƒFƒNƒg¶¬ƒ^ƒCƒ€‚ğƒŠƒZƒbƒg‚·‚é
+						CObjIntervention* obj_i = new CObjIntervention(j, i, true);
+						Objs::InsertObj(obj_i, OBJ_INTERVENTION, 10);
 					}
-					else if(j>9)
+					//‰E‘¤—p‚ÌƒuƒƒbƒN¶¬
+					else if (j >= 10)
 					{
-						CObjIntervention* obj_i=new CObjIntervention(j,i,false);
-						Objs::InsertObj(obj_i,OBJ_INTERVENTION,10);
-						m_map[i][j].obj_check=false;//ƒIƒuƒWƒFƒNƒg¶¬ƒtƒ‰ƒO‚ğƒIƒt‚É‚·‚é
-						m_map[i][j].stop_flag=false;//ƒuƒƒbƒN¶¬ˆÊ’u‚ÌƒXƒgƒbƒvƒtƒ‰ƒO‚ğƒIƒt‚É‚·‚é
-						m_map[i][j].obj_time=0;//ƒIƒuƒWƒFƒNƒg¶¬ƒ^ƒCƒ€‚ğƒŠƒZƒbƒg‚·‚é
+						CObjIntervention* obj_i = new CObjIntervention(j, i, false);
+						Objs::InsertObj(obj_i, OBJ_INTERVENTION, 10);
 					}
-				}	
-			}
 
-			//--------------------------------------------------------
-			//Á–ÅƒAƒjƒ[ƒVƒ‡ƒ“@98
-			//----------------------------------------------
-			if(m_map[i][j].num == 98)
+					m_map[i][j].bCreate = false;//ƒIƒuƒWƒFƒNƒg¶¬ƒtƒ‰ƒO‚ğƒIƒt‚É‚·‚é
+					m_map[i][j].bStop = false;	//ƒuƒƒbƒN¶¬ˆÊ’u‚ÌƒXƒgƒbƒvƒtƒ‰ƒO‚ğƒIƒt‚É‚·‚é
+					m_map[i][j].ObjTime = 0;	//ƒIƒuƒWƒFƒNƒg¶¬ƒ^ƒCƒ€‚ğƒŠƒZƒbƒg‚·‚é
+				}
+			}
+			//Á–ÅƒAƒjƒ[ƒVƒ‡ƒ“@
+			if (m_map[i][j].Num == 98)
 			{
-				if(m_map[i][j].stop_time >= 5)//‚à‚µAÁ–Åˆ—‚Ì”»’è‚ªƒAƒjƒ[ƒVƒ‡ƒ“‚ÌŠÔ‚æ‚è’·‚­‚Æ‚Ç‚Ü‚Á‚Ä‚¢‚½‚ç
-					m_map[i][j].num==99;//‹ó”’‚É‚à‚Ç‚·
+				//Á–Åˆ—‚Ì”»’è‚ªƒAƒjƒ[ƒVƒ‡ƒ“‚ÌŠÔ‚æ‚è’·‚­‚Æ‚Ç‚Ü‚Á‚Ä‚¢‚½‚ç//‹ó”’‚É‚à‚Ç‚·
+				if (m_map[i][j].StopTime >= 5)
+					m_map[i][j].Num = 99;
 			}
-
-			//-----------------------------------------------
 			//‹ó”’ 99
-			//--------------------------------------
-			if(m_map[i][j].num == 99)
+			if (m_map[i][j].Num == 99)
 			{
-				m_map[i][j].process_check=true;//ˆ—Ïƒtƒ‰ƒO‚ğƒIƒ“‚É‚·‚é
+				//ˆ—Ïƒtƒ‰ƒO‚ğƒIƒ“‚É‚·‚é
+				m_map[i][j].bProcess = true;
 			}
 
 			//”Ô†‚ğ•Û‘¶‚·‚é
-			m_map[i][j].before_num=m_map[i][j].num;
-			
-			m_map[i][j].obj_time++;//ƒIƒuƒWƒFƒNƒg¶¬‚©‚ç‚Ìƒ^ƒCƒ€•Û‘¶
-			if( m_map[i][j].obj_time > 10000)//‚à‚µ10000‚ğ’´‚¦‚é‚È‚ç
-				m_map[i][j].obj_time = 10;//10‚É–ß‚· 
-		}
-	}
+			m_map[i][j].BeforeNum = m_map[i][j].Num;
 
-	//Ÿ”s”»’è
-	m_vc_l=VictoryCheck(true);//¶
-	m_vc_r=VictoryCheck(false);//‰E
-	
-	if(flag == false)
-	{
-		VictoryProcess(vs_CP);//Ÿ—˜”»’è‚ğ‚İ‚½‚µ‚Ä‚¢‚é‚©’²‚×A–‚½‚µ‚Ä‚¢‚ê‚Îˆ—‚ğ‚·‚é
+			//ƒIƒuƒWƒFƒNƒg‚Ìƒ^ƒCƒ€XV
+			m_map[i][j].ObjTime++;
+			if (m_map[i][j].ObjTime > 10000)
+				m_map[i][j].ObjTime = 10;
+		}
 	}
 }
 
@@ -201,10 +206,10 @@ void CObjMain::Draw()
 	wchar_t str[10];//0:•ª@1:•b
 
 	//ƒXƒ^[ƒg‚ÌƒJƒEƒ“ƒg‚ªI‚í‚Á‚Ä‚¢‚ê‚Î
-	if(m_count_time>=270)
+	if(m_CountTime>=270)
 	{
 		//ƒXƒRƒA•\¦
-		swprintf_s(str, L"%02d:%02d",m_time/60, m_time % 60);
+		swprintf_s(str, L"%02d:%02d",m_Time/60, m_Time % 60);
 		Font::StrDraw(str, 430.0f, 20.0f, 60.0f, c);
 
 		//‚±‚±‚©‚çƒuƒƒbƒN•\¦-----------
@@ -233,7 +238,7 @@ void CObjMain::Draw()
 					
 					Draw::Draw(9,&src,&dst,c,0.0f);//•`‰æ
 				}
-				else if(m_map[y][x].num==99)
+				else if(m_map[y][x].Num==99)
 				{
 					//”’‚¢ƒEƒBƒ“ƒhƒE
 					//Ø‚èæ‚èˆÊ’u‚Ìİ’è
@@ -249,52 +254,52 @@ void CObjMain::Draw()
 	RectSet(0.0f,0.0f,256.0f,256.0f,src);
 
 	//3
-	if(m_count_time<=70)
+	if(m_CountTime<=70)
 	{
-		if(m_count_time==5)
+		if(m_CountTime ==5)
 			Audio::Start(9);//Œø‰Ê‰¹
 
-		font_big_time++;
+		m_FontBigTime++;
 
 		//font_big_time‚ª‘‚¦‚é‚É‚Â‚ê‚Ä•\¦‚³‚ê‚é”š‚ª‘å‚«‚­‚È‚é
 		//•`‰æˆÊ’u‚Ìİ’è
-		RectSet(200-font_big_time,420-font_big_time,570+font_big_time,400+font_big_time,dst);
+		RectSet(200-m_FontBigTime,420-m_FontBigTime,570+m_FontBigTime,400+ m_FontBigTime,dst);
 		
 		Draw::Draw(11,&src,&dst,c,0.0f);//•`‰æ
 		
 	}
 
 	//2
-	if(m_count_time>70&&m_count_time<=140)
+	if(m_CountTime>70&&m_CountTime<=140)
 	{
-		if(m_count_time==75)
+		if(m_CountTime ==75)
 			Audio::Start(9);//Œø‰Ê‰¹
 
-		font_big_time++;
+		m_FontBigTime++;
 
-		RectSet(200-font_big_time,420-font_big_time,570+font_big_time,400+font_big_time,dst);
+		RectSet(200- m_FontBigTime,420- m_FontBigTime,570+ m_FontBigTime,400+ m_FontBigTime,dst);
 
 		Draw::Draw(12,&src,&dst,c,0.0f);//•`‰æ
 	}
 
 	//1
-	if(m_count_time>140&&m_count_time<=210)
+	if(m_CountTime>140&&m_CountTime<=210)
 	{
-		if(m_count_time==145)
+		if(m_CountTime ==145)
 			Audio::Start(9);//Œø‰Ê‰¹
 
-		font_big_time++;
+		m_FontBigTime++;
 
-		RectSet(200-font_big_time,420-font_big_time,570+font_big_time,400+font_big_time,dst);
+		RectSet(200- m_FontBigTime,420- m_FontBigTime,570+ m_FontBigTime,400+ m_FontBigTime,dst);
 
 		Draw::Draw(13,&src,&dst,c,0.0f);//•`‰æ
 
 	}
 
 	//START
-	if(m_count_time>210&&m_count_time<=260)
+	if(m_CountTime>210&&m_CountTime<=260)
 	{
-		if(m_count_time==215)
+		if(m_CountTime ==215)
 			Audio::Start(10);//Œø‰Ê‰¹
 
 		RectSet(100.0f,300.0f,700.0f,400.0f,dst);
@@ -303,8 +308,8 @@ void CObjMain::Draw()
 	}
 
 	//ƒJƒEƒ“ƒg‚ª70‚«‚½‚Æ‚«‚ÉŒ³‚ÌƒTƒCƒY‚É–ß‚·
-	if(font_big_time==70)
-		font_big_time=0;
+	if(m_FontBigTime ==70)
+		m_FontBigTime =0;
 }
 
 //‚Â‚È‚ª‚Á‚Ä‚¢‚éƒuƒƒbƒN‚Ì”‚ğ”‚¦‚Ä‚¯‚¹‚é‚È‚çÁ–Åˆ—‚ğ‚·‚éŠÖ”
@@ -314,117 +319,120 @@ void CObjMain::Draw()
 void CObjMain::CheckMap(int x, int y,bool lr)
 {
 	int pos[2];
-	int number=0;//‚Â‚È‚ª‚Á‚Ä‚¢‚éƒuƒƒbƒN‚Ì”ƒJƒEƒ“ƒg
-	int ojm_count=0;//‚¨×–‚ƒuƒƒbƒN‚Ì”ƒJƒEƒ“ƒg
-	int color=m_map[y][x].num;//ŒŸõ‘ÎÛ‚ÌF‚ğ•Û‘¶
+	int number=0;	//‚Â‚È‚ª‚Á‚Ä‚¢‚éƒuƒƒbƒN‚Ì”ƒJƒEƒ“ƒg
+	int OjmCount=0;	//‚¨×–‚ƒuƒƒbƒN‚Ì”ƒJƒEƒ“ƒg
+	int Color=m_map[y][x].Num;	//ŒŸõ‘ÎÛ‚ÌF‚ğ•Û‘¶
 
 	pos[0]=x;
 	pos[1]=x;
 
-	if(lr==true) //¶‘¤‚ÌPlayer‚ª•ú‚Á‚½BlockiBulletj‚©‚Â’â~ó‘Ô	
-		//‚±‚±‚Ì‚Í‚³‚İƒ`ƒFƒbƒN‚ª–â‘è
-		//‰E’[‚ÌBlock‚©‚çn‚Ü‚Á‚ÄA‚³‚ç‚É‰E‘¤‚ÌƒuƒƒbƒN‚ğƒ`ƒFƒbƒN‚É‚¢‚Á‚Ä‚¢‚é
-
+	//¶‘¤‚ÌPlayer‚ª•ú‚Á‚½ ‚©‚Â@Block’â~ó‘Ô
+	if(lr==true) 	
 	{
-		// x+1 ---> x ‘å•ÏX@2017-05-26
-		for(int i=x; i<20; i++) //”z—ñI‚í‚è‚Ü‚Å’Tõ
+		//”z—ñI‚í‚è‚Ü‚Å’Tõ
+		for(int i=x; i<20; i++)
 		{ 
-			if(m_map[y][i].num==color) //FŒŸo
+			//FŒŸo
+			if(m_map[y][i].Num==Color)
 			{
 				pos[1]=i;//êŠ‚ğ‹L˜^
 				
 			}
-
-			if(m_map[y][i].num==99)//’Tõ’†‚É‹ó”’‚É‚ª‚ ‚Á‚½‚ç‚»‚±‚Å’TõI—¹
+			//’Tõ’†‚É‹ó”’‚É‚ª‚ ‚Á‚½‚ç‚»‚±‚Å’TõI—¹
+			if(m_map[y][i].Num==99)
 				break;
 		}
 			
 	}
-	else //‰E‘¤‚ÌPlayer‚ª•ú‚Á‚½BlockiBulletj‚©‚Â’â~ó‘Ô
+	//‰E‘¤‚ÌPlayer‚ª•ú‚Á‚½@‚©‚Â@Block’â~ó‘Ô
+	else
 	{
-		// x-1 ---> x ‘å•ÏX@2017-06-05
-		for(int i=x; i>0; i--) //”z—ñI‚í‚è‚Ü‚Å’Tõ
+		//”z—ñI‚í‚è‚Ü‚Å’Tõ
+		for(int i=x; i>0; i--)
 		{ 
-			if(m_map[y][i].num==color) //FŒŸo
+			//FŒŸo
+			if(m_map[y][i].Num==Color)
 			{
 				pos[1]=i;//êŠ‚ğ‹L˜^
-
 			}
 
-			if(m_map[y][i].num==99)//’Tõ’†‚É‹ó”’‚É‚ª‚ ‚Á‚½‚ç‚»‚±‚Å’TõI—¹
+			//’Tõ’†‚É‹ó”’‚É‚ª‚ ‚Á‚½‚ç‚»‚±‚Å’TõI—¹
+			if(m_map[y][i].Num==99)
 				break;
 		}
 	}
 
-	number=abs(pos[1]-pos[0])+1;//‚Â‚È‚ª‚Á‚Ä‚¢‚é”(‚¨×–‚‚Æ—¼ƒTƒCƒh‚İ)‚ğ‹‚ß‚é
+	//‚Â‚È‚ª‚Á‚Ä‚¢‚é”(‚¨×–‚‚Æ—¼ƒTƒCƒh‚İ)‚ğ‹‚ß‚é
+	number=abs(pos[1]-pos[0])+1;
 
-	if(lr==true)//¶‘¤ƒvƒŒ[ƒ„[
+	//¶‘¤ƒvƒŒ[ƒ„[
+	if(lr==true)
 	{
-		//¶
-		// x+1 ---> x ‘å•ÏX@2017-06-05
-		for(int i=x; i<pos[1]; i++)//Á‚·”ÍˆÍ“à‚É‚¨×–‚‚ª‰½ŒÂ‚ ‚é‚©ƒJƒEƒ“ƒg‚·‚é
+		//Á‚·”ÍˆÍ“à‚É‚¨×–‚‚ª‰½ŒÂ‚ ‚é‚©ƒJƒEƒ“ƒg‚·‚é
+		for(int i=x; i<pos[1]; i++)
 		{
-			if(m_map[y][i].num==6)//‚à‚µA‚¨×–‚ƒuƒƒbƒN‚È‚ç
-				ojm_count++;
+			if(m_map[y][i].Num==6)
+				OjmCount++;
 		}
 	}
+	//‰E‘¤ƒvƒŒƒCƒ„[
 	else 
 	{
-		//‰E
-		// x-1 ---> x ‘å•ÏX@2017-06-05
-		for(int i=x; i>pos[1]; i--)//Á‚·”ÍˆÍ“à‚É‚¨×–‚‚ª‰½ŒÂ‚ ‚é‚©ƒJƒEƒ“ƒg‚·‚é
+		//Á‚·”ÍˆÍ“à‚É‚¨×–‚‚ª‰½ŒÂ‚ ‚é‚©ƒJƒEƒ“ƒg‚·‚é
+		for(int i=x; i>pos[1]; i--)
 		{
-			if(m_map[y][i].num==6)//‚à‚µA‚¨×–‚ƒuƒƒbƒN‚È‚ç
-				ojm_count++;
+			if(m_map[y][i].Num==6)
+				OjmCount++;
 		}
 	}
 	
-	//--------------------------------------------
-	// ˜A½ƒ`ƒFƒCƒ“@Á‚µ‚±‚İˆ—
-	// ‚S‚ÂˆÈã
-	//--------------------------------------------
-	int nBlockNum = number - ojm_count;//FƒuƒƒbƒN‚Ì‚İ‚Ì”(‚Â‚È‚ª‚Á‚Ä‚¢‚é” - ‚¨×–‚‚Ì”@)
+	//FƒuƒƒbƒN‚Ì‚İ‚Ì”(‚Â‚È‚ª‚Á‚Ä‚¢‚é” - ‚¨×–‚‚Ì”)
+	int BlockNum = number - OjmCount;
 	
-	if(nBlockNum >= 4)//FƒuƒƒbƒN‚Ì‚İ‚Ì”‚ª4ˆÈã‚È‚ç
+	//FƒuƒƒbƒN‚Ì”‚ª4ˆÈã‚È‚ç
+	if(BlockNum >= 4)
 	{
-		//¶
 		for(int i=0 ; i<number;i++)
 		{
-			if(lr==true)//¶‘¤Player
-				m_map[y][x+i].num=98;//ƒ}ƒbƒv‚É”š”­ˆ——p‚Ì”š(98)‚ğ‚¢‚ê‚é
+			//ƒ}ƒbƒv‚É”š”­ˆ——p‚Ì”š(98)‚ğ‚¢‚ê‚é
+			if(lr==true)
+				m_map[y][x+i].Num=98;
 			else
-				m_map[y][x-i].num=98;//ƒ}ƒbƒv‚É”š”­ˆ——p‚Ì”š(98)‚ğ‚¢‚ê‚é
+				m_map[y][x-i].Num=98;
 		}
 	}
 
-	if(nBlockNum>=5)//‚¨×–‚‚ğœ‚¢‚ÄÁ‚µ‚½”‚ª5ˆÈã‚È‚ç
+	//‚¨×–‚‚ğœ‚¢‚ÄÁ‚µ‚½”‚ª5ˆÈã‚È‚ç
+	if(BlockNum>=5)
 	{
-		//ƒIƒuƒWƒFƒNƒg‚ÌŒÄ‚Ño‚µ
-		CObjHero * obj_h =(CObjHero*)Objs ::GetObj(OBJ_HERO);		//¶
+		//ƒvƒŒƒCƒ„[‚ÌŒÄ‚Ño‚µ
+		CObjHero * obj_h =(CObjHero*)Objs ::GetObj(OBJ_HERO);
 
-		//ƒeƒXƒg-----------------------------
-		//
+		//¶‘¤Player
 		if(lr==true)
 		{
-			//¶‚©‚ç—ˆ‚½ƒuƒƒbƒN
-			if(vs_CP == true)//CPí‚È‚ç
+			//CPí
+			if(m_bCpBattle == true)
 			{
+				//‚¨×–‚‚Ì¶¬”‚ğİ’è
 				CObjCP * obj_cp =(CObjCP*)Objs ::GetObj(OBJ_CP);//CP
-				obj_cp->SetOjmNum(nBlockNum-4);//¶¬‚·‚é‚¨×–‚‚Ì”‚ğ•Û‘¶
+				obj_cp->SetOjmNum(BlockNum-4);//¶¬‚·‚é‚¨×–‚‚Ì”‚ğ•Û‘¶
 			}
-			
-			if(vs_CP == false)//2Pí‚È‚ç
+			//2Pí
+			else
 			{
-				CObjHero_R * obj_hr =(CObjHero_R*)Objs ::GetObj(OBJ_HERO_R);//‰E
-				obj_hr->SetOjmNum(nBlockNum-4);//¶¬‚·‚é‚¨×–‚‚Ì”‚ğ•Û‘¶
+				//‚¨×–‚‚Ì¶¬”‚ğİ’è
+				CObjHero_R * obj_hr =(CObjHero_R*)Objs ::GetObj(OBJ_HERO_R);
+				obj_hr->SetOjmNum(BlockNum-4);
 			}
 		}
+
+		//‰E‘¤Player
 		else
 		{
-			//‰E‚©‚ç—ˆ‚½ƒuƒƒbƒN
-			obj_h->SetOjmNum(nBlockNum-4);//¶¬‚·‚é‚¨×–‚‚Ì”‚ğ•Û‘¶
+			//‚¨×–‚‚Ì¶¬”‚ğİ’è
+			obj_h->SetOjmNum(BlockNum-4);
 		}	
-		//------------------------------------------
 	}
 }
 
@@ -443,11 +451,13 @@ void CObjMain::CreateIntervention(int number,bool lr)
 		
 	int j=0;//ƒuƒƒbƒN‚ğ“ü‚ê‚é—v‘f‚ª’[‚©‚ç‰½”Ô–Ú‚©ƒJƒEƒ“ƒg
 		
-	for(int i = 0; i < number ; i++)//¶¬‚·‚é‚¨×–‚‚Ì”‚¾‚¯‚Ü‚í‚·
+	//¶¬‚·‚é‚¨×–‚‚Ì”‚¾‚¯‚Ü‚í‚·
+	for(int i = 0; i < number ; i++)
 	{
 		do
 		{
-			if(i==7)//7”Ô–Ú‚Ì‚¨×–‚‚È‚ç// Iv‚ª15‚ªMax
+			//7”Ô–Ú‚Ì‚¨×–‚‚È‚ç
+			if(i==7)
 			{
 				Dec=0x0000000;//Œˆ’è‚ğ‰Šú‰»‚µ
 				j++;//¶¬ˆÊ’u‚ğˆê‚Â“à‘¤‚É‚¸‚ç‚·
@@ -458,21 +468,21 @@ void CObjMain::CreateIntervention(int number,bool lr)
 
 		}while((Dec & Sch ) != 0x0000000);//¶¬—\’è’n‚ªŒˆ’èÏˆÊ’u‚Æ‚©‚Ô‚Á‚Ä‚¢‚È‚¯‚ê‚Î”²‚¯‚é
 			
-		Dec += (1 << y);//Œˆ’è‚µ‚½ˆÊ’u‚É‚Í‚P‚ğ“ü‚ê‚é
+		//Œˆ’è‚µ‚½ˆÊ’u‚É‚Í‚P‚ğ“ü‚ê‚é
+		Dec += (1 << y);
 
+		//¶‘¤‚É~‚ç‚·
 		if(lr==true)
 		{
-			//¶‘¤‚É~‚ç‚·
-			Enter(0+j,y,6);//ƒ}ƒbƒv‚É“ü‚ê‚é
-			FlagOn(0+j,y);//ƒIƒuƒWƒFƒNƒg¶¬ƒtƒ‰ƒO‚ğƒIƒ“‚É‚·‚é				
+			Enter(0+j,y,6);	//ƒ}ƒbƒv‚É“ü‚ê‚é
+			FlagOn(0+j,y);	//ƒIƒuƒWƒFƒNƒg¶¬ƒtƒ‰ƒO‚ğƒIƒ“‚É‚·‚é				
 		}
+		//‰E‘¤‚É~‚ç‚·
 		else
 		{
-			//‰E‘¤‚É~‚ç‚·
 			Enter(19-j,y,6);//ƒ}ƒbƒv‚É“ü‚ê‚é
-			FlagOn(19-j,y);//ƒIƒuƒWƒFƒNƒg¶¬ƒtƒ‰ƒO‚ğƒIƒ“‚É‚·‚é
-		}
-		
+			FlagOn(19-j,y);	//ƒIƒuƒWƒFƒNƒg¶¬ƒtƒ‰ƒO‚ğƒIƒ“‚É‚·‚é
+		}		
 	}
 }
 
@@ -484,12 +494,10 @@ bool CObjMain::ShotCheck(bool lr)
 	for(int i=0;i<7;i++)
 	{
 		//StopCheckŠÖ”‚ğ—p‚¢‚Äˆê’i‚¸‚Â’²‚×‚Ä‚¢‚­
-		if( StopCheck(i,lr)==false )//Œ‹‰Ê‚ªfalse‚È‚ç
+		if( StopCheck(i,lr)==false )
 			return false;
 	}
-
 	return true;
-
 }
 
 //w’è‚µ‚½’i‚Ìw’è‚µ‚½”ÍˆÍi‰E”¼•ª‚Ü‚½‚Í¶”¼•ªj‚ÌƒIƒ“‚É‚È‚Á‚Ä‚¢‚éƒXƒgƒbƒvƒtƒ‰ƒO‚Ì”‚ğ”‚¦‚éŠÖ”
@@ -500,17 +508,16 @@ bool CObjMain::StopCheck(int y,bool lr)//w’è‚µ‚½’i‚Ì‘S‚Ä‚ÌƒuƒƒbƒN‚ª‚Æ‚Ü‚Á‚Ä‚¢‚
 {
 	int count=0;//ƒXƒgƒbƒvƒtƒ‰ƒO‚ÌƒJƒEƒ“ƒg—p
 	
-
+	//¶‘¤
 	if(lr==true)
 	{
-		//¶
 		for(int i=0;i<=9;i++)
 		{
 			//‚»‚ÌˆÊ’u‚ÉFƒuƒƒbƒN‚Ü‚½‚Í‚¨×–‚ƒuƒƒbƒN‚ª“ü‚Á‚Ä‚¢‚ê‚Î
-			if( ( 0<=m_map[y][i].num) && (m_map[y][i].num <= 6 ) )  
+			if( ( 0<=m_map[y][i].Num) && (m_map[y][i].Num <= 6 ) )  
 			{
 				//ƒXƒgƒbƒvƒtƒ‰ƒO‚ªƒIƒt‚È‚ç
-				if(m_map[y][i].stop_flag==false)	
+				if(m_map[y][i].bStop==false)	
 				{	
 					//‚»‚ÌƒuƒƒbƒN‚ª“®‚¢‚Ä‚¢‚éó‘Ô
 					return false;
@@ -518,16 +525,15 @@ bool CObjMain::StopCheck(int y,bool lr)//w’è‚µ‚½’i‚Ì‘S‚Ä‚ÌƒuƒƒbƒN‚ª‚Æ‚Ü‚Á‚Ä‚¢‚
 			}
 		}
 	}
+	//‰E‘¤
 	else
-	{
-		//‰E
-		for(int i=10;i<=19;i++)
+	{	for(int i=10;i<=19;i++)
 		{
 			//‚»‚ÌˆÊ’u‚ÉFƒuƒƒbƒN‚Ü‚½‚Í‚¨×–‚ƒuƒƒbƒN‚ª“ü‚Á‚Ä‚¢‚ê‚Î
-			if( ( 0<=m_map[y][i].num) && (m_map[y][i].num <= 6 ) )  
+			if( ( 0<=m_map[y][i].Num) && (m_map[y][i].Num <= 6 ) )  
 			{
 				//ƒXƒgƒbƒvƒtƒ‰ƒO‚ªƒIƒt‚È‚ç
-				if(m_map[y][i].stop_flag==false)	
+				if(m_map[y][i].bStop==false)	
 				{
 					//‚»‚ÌƒuƒƒbƒN‚ª“®‚¢‚Ä‚¢‚éó‘Ô
 					return false;
@@ -538,25 +544,28 @@ bool CObjMain::StopCheck(int y,bool lr)//w’è‚µ‚½’i‚Ì‘S‚Ä‚ÌƒuƒƒbƒN‚ª‚Æ‚Ü‚Á‚Ä‚¢‚
 	return true;
 }
 
-
 //Ÿ”s‚Ì”»’è—p‚ÌŠÖ”
 //ˆø”1:¶‰E‚ğ¦‚·ƒtƒ‰ƒO
 //ˆê”Ô’[‚ÉƒuƒƒbƒN‚Í“ü‚Á‚Ä‚¢‚ÄA‚»‚±‚É50ƒtƒŒ[ƒ€ˆÈã‚Æ‚Ç‚Ü‚Á‚Ä‚¢‚ê‚ÎtrueB‚»‚êˆÈŠO‚È‚çfalse
 bool CObjMain::VictoryCheck(bool lr)
 {
-	int j;
+	//ˆê”Ô’[‚Ìx•ûŒü‚Ì—v‘f”
+	int SideIndex;
+
 	for(int i=0;i<7;i++)
 	{
+		//¶
 		if(lr==true)
-			j=0;
+			SideIndex =0;
+		//‰E
 		else
-			j=19;
+			SideIndex =19;
 
 		//FƒuƒƒbƒN‚©‚¨×–‚ƒuƒƒbƒN‚ª“ü‚Á‚Ä‚¢‚é‚È‚ç
-		if( 0<=m_map[i][j].num && m_map[i][j].num<=6)
+		if( 0<=m_map[i][SideIndex].Num && m_map[i][SideIndex].Num<=6)
 		{
 			//‚»‚±‚É50ƒtƒŒ[ƒ€ˆÈã‚Æ‚Ç‚Ü‚Á‚Ä‚¢‚é‚È‚ç
-			if(m_map[i][j].stop_time >= 50)
+			if(m_map[i][SideIndex].StopTime >= 50)
 				return true;
 		}
 	}
@@ -574,101 +583,104 @@ int CObjMain::BlockCheck(int y,bool lr,int n)
 
 	for(int i=0;i<=9;i++)
 	{
-		if(lr==true)//¶‰Eƒ`ƒFƒbƒN
+		//¶
+		if(lr==true)
 		{
-			//¶
-			if(m_map[y][i].num == n)
+			if(m_map[y][i].Num == n)
 				count++;
 		}
+		//‰E
 		else
 		{
-			if(m_map[y][i+10].num == n)
+			if(m_map[y][i+10].Num == n)
 				count++;
 		}
 	}
 	
 	return count;
 }
+
 //‚Â‚È‚ª‚Á‚Ä‚¢‚éƒuƒƒbƒN‚Ì”‚ğ”‚¦‚Ä‚»‚Ì”‚ğ•Ô‚·ŠÖ”
 //ˆø”1 :—v‘f”Ô†X
 //ˆø”2 :—v‘f”Ô†Y
 //ˆø”3 :¶‰Eƒ`ƒFƒbƒN
 int CObjMain::BlockDeleteCheck(int x,int y,bool lr)
 {
-	int pos[2];
-	int number=0;//‚Â‚È‚ª‚Á‚Ä‚¢‚éƒuƒƒbƒN‚Ì”ƒJƒEƒ“ƒg
-	int ojm_count=0;//‚¨×–‚ƒuƒƒbƒN‚Ì”ƒJƒEƒ“ƒg
-	int color=m_map[y][x].num;//ŒŸõ‘ÎÛ‚ÌF‚ğ•Û‘¶
+	int Pos[2];
+	int Number = 0;		//‚Â‚È‚ª‚Á‚Ä‚¢‚éƒuƒƒbƒN‚Ì”ƒJƒEƒ“ƒg
+	int OjmCount = 0;	//‚¨×–‚ƒuƒƒbƒN‚Ì”ƒJƒEƒ“ƒg
+	int Color = m_map[y][x].Num;	//ŒŸõ‘ÎÛ‚ÌF‚ğ•Û‘¶
 
-	pos[0]=x;
-	pos[1]=x;
+	Pos[0] = x;
+	Pos[1] = x;
 
-	if(lr==true) //¶‘¤‚ÌPlayer‚ª•ú‚Á‚½BlockiBulletj‚©‚Â’â~ó‘Ô	
-		//‚±‚±‚Ì‚Í‚³‚İƒ`ƒFƒbƒN‚ª–â‘è
-		//‰E’[‚ÌBlock‚©‚çn‚Ü‚Á‚ÄA‚³‚ç‚É‰E‘¤‚ÌƒuƒƒbƒN‚ğƒ`ƒFƒbƒN‚É‚¢‚Á‚Ä‚¢‚é
-
+	//¶‘¤‚ÌPlayer‚ª•ú‚Á‚½ ‚©‚Â@Block’â~ó‘Ô
+	if (lr == true)
 	{
-		// x+1 ---> x ‘å•ÏX@2017-05-26
-		for(int i=x; i<20; i++) //”z—ñI‚í‚è‚Ü‚Å’Tõ
-		{ 
-			if(m_map[y][i].num==color) //FŒŸo
+		//”z—ñI‚í‚è‚Ü‚Å’Tõ
+		for (int i = x; i < 20; i++)
+		{
+			//FŒŸo
+			if (m_map[y][i].Num == Color)
 			{
-				pos[1]=i;//êŠ‚ğ‹L˜^
-				
-			}
+				Pos[1] = i;//êŠ‚ğ‹L˜^
 
-			if(m_map[y][i].num==99)//’Tõ’†‚É‹ó”’‚É‚ª‚ ‚Á‚½‚ç‚»‚±‚Å’TõI—¹
+			}
+			//’Tõ’†‚É‹ó”’‚É‚ª‚ ‚Á‚½‚ç‚»‚±‚Å’TõI—¹
+			if (m_map[y][i].Num == 99)
 				break;
 		}
-			
+
 	}
-	else //‰E‘¤‚ÌPlayer‚ª•ú‚Á‚½BlockiBulletj‚©‚Â’â~ó‘Ô
-		
+	//‰E‘¤‚ÌPlayer‚ª•ú‚Á‚½@‚©‚Â@Block’â~ó‘Ô
+	else
 	{
-		// x-1 ---> x ‘å•ÏX@2017-06-05
-		for(int i=x; i>0; i--) //”z—ñI‚í‚è‚Ü‚Å’Tõ
-		{ 
-			if(m_map[y][i].num==color) //FŒŸo
+		//”z—ñI‚í‚è‚Ü‚Å’Tõ
+		for (int i = x; i > 0; i--)
+		{
+			//FŒŸo
+			if (m_map[y][i].Num == Color)
 			{
-				pos[1]=i;//êŠ‚ğ‹L˜^
+				Pos[1] = i;//êŠ‚ğ‹L˜^
 			}
 
-			if(m_map[y][i].num==99)//’Tõ’†‚É‹ó”’‚É‚ª‚ ‚Á‚½‚ç‚»‚±‚Å’TõI—¹
+			//’Tõ’†‚É‹ó”’‚É‚ª‚ ‚Á‚½‚ç‚»‚±‚Å’TõI—¹
+			if (m_map[y][i].Num == 99)
 				break;
 		}
 	}
 
+	//‚Â‚È‚ª‚Á‚Ä‚¢‚é”(‚¨×–‚‚Æ—¼ƒTƒCƒh‚İ)‚ğ‹‚ß‚é
+	Number = abs(Pos[1] - Pos[0]) + 1;
 
-	number = abs(pos[1]-pos[0])+1;//‚Â‚È‚ª‚Á‚Ä‚¢‚é”(‚¨×–‚‚Æ—¼ƒTƒCƒh‚İ)‚ğ‹‚ß‚é
-
-	if(lr==true)//¶‘¤ƒvƒŒ[ƒ„[
+	//¶‘¤ƒvƒŒ[ƒ„[
+	if (lr == true)
 	{
-		//¶
-		// x+1 ---> x ‘å•ÏX@2017-06-05
-		for(int i=x; i<pos[1]; i++)//Á‚·”ÍˆÍ“à‚É‚¨×–‚‚ª‰½ŒÂ‚ ‚é‚©ƒJƒEƒ“ƒg‚·‚é
+		//Á‚·”ÍˆÍ“à‚É‚¨×–‚‚ª‰½ŒÂ‚ ‚é‚©ƒJƒEƒ“ƒg‚·‚é
+		for (int i = x; i < Pos[1]; i++)
 		{
-			if(m_map[y][i].num==6)//‚à‚µA‚¨×–‚ƒuƒƒbƒN‚È‚ç
-				ojm_count++;
+			if (m_map[y][i].Num == 6)
+				OjmCount++;
 		}
 	}
-	else 
+	//‰E‘¤ƒvƒŒƒCƒ„[
+	else
 	{
-		//‰E
-		// x-1 ---> x ‘å•ÏX@2017-06-05
-		for(int i=x; i>pos[1]; i--)//Á‚·”ÍˆÍ“à‚É‚¨×–‚‚ª‰½ŒÂ‚ ‚é‚©ƒJƒEƒ“ƒg‚·‚é
+		//Á‚·”ÍˆÍ“à‚É‚¨×–‚‚ª‰½ŒÂ‚ ‚é‚©ƒJƒEƒ“ƒg‚·‚é
+		for (int i = x; i > Pos[1]; i--)
 		{
-			if(m_map[y][i].num==6)//‚à‚µA‚¨×–‚ƒuƒƒbƒN‚È‚ç
-				ojm_count++;
+			if (m_map[y][i].Num == 6)
+				OjmCount++;
 		}
 	}
 
-	//--------------------------------------------
-	// ˜A½ƒ`ƒFƒCƒ“@Á‚µ‚±‚İˆ—
-	// ‚S‚ÂˆÈã
-	//--------------------------------------------
-	if(number-ojm_count>=4)//‚Â‚È‚ª‚Á‚Ä‚¢‚é”-‚¨×–‚‚Ì”‚ª4ˆÈã‚È‚ç
+	//FƒuƒƒbƒN‚Ì‚İ‚Ì”(‚Â‚È‚ª‚Á‚Ä‚¢‚é” - ‚¨×–‚‚Ì”)
+	int BlockNum = Number - OjmCount;
+	
+	//‚Â‚È‚ª‚Á‚Ä‚¢‚é”-‚¨×–‚‚Ì”‚ª4ˆÈã‚È‚ç
+	if(BlockNum >=4)
 	{		
-		return number-ojm_count;
+		return BlockNum;
 	}
 	else
 		return 0;
@@ -680,10 +692,10 @@ void CObjMain::StopPointCheck()
 	//‰E‚©‚ç’²‚×‚ÄƒuƒƒbƒN‚Ì~‚Ü‚é‚Å‚ ‚ë‚¤ˆÊ’u‚ğ’T‚·-----
 	for(int i=0;i<7;i++)
 	{
-		for(BlockStopPoint[i]=19;BlockStopPoint[i]>=10;BlockStopPoint[i]--)
+		for(m_BlockStopPoint[i]=19;m_BlockStopPoint[i]>=10;m_BlockStopPoint[i]--)
 		{
 			//‹ó”’‚È‚ç
-			if(m_map[i][ BlockStopPoint[i] ].num == 99)
+			if(m_map[i][ m_BlockStopPoint[i] ].Num == 99)
 			{
 				;//‚È‚É‚à‚µ‚È‚¢
 			}
@@ -693,9 +705,10 @@ void CObjMain::StopPointCheck()
 					break;//ƒ‹[ƒv‚ğ”²‚¯‚é
 			}
 		}
+
 		//‚±‚Ì‚Æ‚«BlockStopPoint‚Í‰E‘¤‚©‚ç‚İ‚Ä‰‚ß‚ÄƒuƒƒbƒN‚ª“ü‚Á‚Ä‚¢‚é‰ÓŠ‚É‚È‚é
 		//ƒuƒƒbƒN‚ª—ˆ‚é‚Ì‚Í‚±‚Ìˆê‚Â‰E—×‚È‚Ì‚Å‚à‚¤ˆê‚Â‰E‚Ì’l‚ª—~‚µ‚¢
-		BlockStopPoint[i]++;//BlockStopPoint‚Ì’l‚ğˆê‚Â‘‚â‚·
+		m_BlockStopPoint[i]++;//BlockStopPoint‚Ì’l‚ğˆê‚Â‘‚â‚·
 	}
 }
 
@@ -706,143 +719,139 @@ void CObjMain::StopPointCheck()
 void CObjMain::AiDeleteCheck_H(int color1,int color2,int r)
 {
 	//CPƒIƒuƒWƒFƒNƒg‚ÌŒÄ‚Ño‚µ
-	CObjCP * obj_cp =(CObjCP*)Objs ::GetObj(OBJ_CP);
+	CObjCP * ObjCp =(CObjCP*)Objs ::GetObj(OBJ_CP);
 	
-	int point_color1 = -1;//F‚P‚Æ“¯‚¶F‚ÌˆÊ’u‚ğ•Û‘¶‚·‚é
-	int point_color2 = -1;//F‚Q‚Æ“¯‚¶F‚ÌˆÊ’u‚ğ•Û‘¶‚·‚é
-	int delete_num = -1;//ÅI“I‚ÈÁ‚¹‚é”‚ğ•Û‘¶‚·‚é
-	int delete_num_color1[7];//‚»‚ê‚¼‚ê‚Ì’i‚ÅF‚P‚ÌÁ‚¹‚é”
-	int delete_num_color2[7];//‚»‚ê‚¼‚ê‚Ì’i‚ÅF‚Q‚ÌÁ‚¹‚é”
-	int ojm_count[7];//‚¨×–‚ƒuƒƒbƒN‚ÌƒJƒEƒ“ƒg
+	//F1,2“¯‚¶F‚ÌˆÊ’u‚ğ•Û‘¶‚·‚é
+	int PointColor[2];	
+	
+	int DeleteNum = -1;	//ÅI“I‚ÈÁ‚¹‚é”
 
+	int DeleteNumColor1[7];	//‚»‚ê‚¼‚ê‚Ì’i‚ÅF‚P‚ÌÁ‚¹‚é”
+	int DeleteNumColor2[7];	//‚»‚ê‚¼‚ê‚Ì’i‚ÅF‚Q‚ÌÁ‚¹‚é”
+	
+	int OjmCount[7];//‚¨×–‚ƒuƒƒbƒN‚ÌƒJƒEƒ“ƒg
+
+	//‰Šú‰»
 	for(int i=0;i<7;i++)
 	{
-		//‰Šú‰»
-		delete_num_color1[i]=-1;
-		delete_num_color2[i]=-1;
-		ojm_count[i]=0;
+		DeleteNumColor1[i]=-1;
+		DeleteNumColor2[i]=-1;
+		OjmCount[i]=0;
 	}
 
-	Point delete_point;//Á‚¹‚éˆÊ’u‚Ì•Û‘¶—p
-	delete_point.x=-1;
-	delete_point.y=-1;
+	//Á‚¹‚éˆÊ’u‚Ì•Û‘¶—p
+	Point DeletePoint;
+	DeletePoint.x=-1;
+	DeletePoint.y=-1;
 	
 	//ƒuƒƒbƒN‚Ì~‚Ü‚é‚Å‚ ‚ë‚¤ˆÊ’u‚ğ’T‚·
 	StopPointCheck();
 	
-	//ã‚©‚çˆê’i‚¸‚ÂF1,2‚ÅÁ‚¹‚é‚©‚¸‚ğ’²‚×‚Ä‚¢‚­---------------
+	//ã‚©‚çˆê’i‚¸‚ÂF1,2‚ÅÁ‚¹‚é”‚ğ’²‚×‚Ä‚¢‚­
 	for(int y=0;y<7;y++)
 	{
 		//‰Šú’l‚É–ß‚·
-		point_color1 = -1;
-		point_color2 = -1;
+		PointColor[0] = -1;
+		PointColor[1] = -1;
 
 		//ƒuƒƒbƒN‚ª~‚Ü‚éˆÊ’u‚Ìˆê‚Â¶‚©‚ç‡‚ÉŒ©‚Ä‚¢‚­
-		for(int i=BlockStopPoint[y]-1;i>0;i--)
+		for(int i=m_BlockStopPoint[y]-1;i>0;i--)
 		{
-			//‹ó”’‚È‚ç
-			if( m_map[y][i].num == 99 )
+			//‹ó”’‚È‚ç‚»‚êˆÈãŒ©‚é•K—v‚ª‚È‚¢‚Ì‚Åƒ‹[ƒv‚ğ”²‚¯‚é
+			if( m_map[y][i].Num == 99 )
 			{
-				break;//‚»‚êˆÈãŒ©‚é•K—v‚ª‚È‚¢‚Ì‚Åƒ‹[ƒv‚ğ”²‚¯‚é
+				break;
 			}
 
-			//F‚P‚Æ“¯‚¶F‚È‚ç
-			if( m_map[y][i].num == color1)
+			//F1‚Æ“¯‚¶F‚È‚ç‚»‚ÌˆÊ’u‚ğ•Û‘¶‚·‚é
+			if( m_map[y][i].Num == color1)
 			{
-				point_color1=i;//‚»‚ÌˆÊ’u‚ğ•Û‘¶‚·‚é
+				PointColor[0]=i;
 			}
 
-			//F‚Q‚Æ“¯‚¶F‚È‚ç
-			if( m_map[y][i].num == color2)
+			//F2‚Æ“¯‚¶F‚È‚ç‚»‚ÌˆÊ’u‚ğ•Û‘¶‚·‚é
+			if( m_map[y][i].Num == color2)
 			{
-				point_color2=i;//‚»‚ÌˆÊ’u‚ğ•Û‘¶‚·‚é
+				PointColor[1] = i;
 			}
 
-			//‚¨×–‚ƒuƒƒbƒN‚È‚ç
-			if(m_map[y][i].num==6)
+			//‚¨×–‚ƒuƒƒbƒN‚È‚ç‚¨×–‚‚ÌƒJƒEƒ“ƒg‚ğ‘‚â‚·
+			if(m_map[y][i].Num==6)
 			{
-				ojm_count[y]++;//ƒJƒEƒ“ƒg‚ğ‘‚â‚·
+				OjmCount[y]++;
 			}
 		}
 
-		if(point_color1 != -1)//‚»‚Ì’i‚ÅF‚P‚ªŒ©‚Â‚©‚Á‚Ä‚¢‚ê‚Î
+		//‚»‚Ì’i‚ÅF‚P‚ªŒ©‚Â‚©‚Á‚Ä‚¢‚ê‚ÎÁ‚¹‚é”‚ğXV‚·‚é
+		if(PointColor[0] != -1)
 		{
-			delete_num_color1[y] = abs( BlockStopPoint[y] - point_color1) + 1 - 4 - ojm_count[y];//Á‚¹‚é”‚ğXV‚·‚é
-			
-			//if(delete_num_color1[y] < 0)
-			//	delete_num_color1[y]=0;//0ˆÈ‰º‚É‚È‚ç‚È‚¢‚æ‚¤‚É‚·‚é
+			DeleteNumColor1[y] = abs( m_BlockStopPoint[y] - PointColor[0]) + 1 - 4 - OjmCount[y];
 		}
 
-		if(point_color2 != -1)//‚»‚Ì’i‚ÅF2‚ªŒ©‚Â‚©‚Á‚Ä‚¢‚ê‚Î
+		if(PointColor[1] != -1)//‚»‚Ì’i‚ÅF2‚ªŒ©‚Â‚©‚Á‚Ä‚¢‚ê‚ÎÁ‚¹‚é”‚ğXV‚·‚é
 		{
-			delete_num_color2[y] = abs( BlockStopPoint[y] - point_color2) + 1 - 4 - ojm_count[y];//Á‚¹‚é”‚ğXV‚·‚é
-				
-			//if(delete_num_color2[y] < 0)
-			//	delete_num_color2[y]=0;//0ˆÈ‰º‚É‚È‚ç‚È‚¢‚æ‚¤‚É‚·‚é
+			DeleteNumColor2[y] = abs( m_BlockStopPoint[y] - PointColor[1]) + 1 - 4 - OjmCount[y];
 		}
 	}
-	//‚»‚ê‚¼‚ê‚Ì’i‚Å‚ÌÁ‚¹‚é”‚ğ’²‚×‚é‚ÌI‚í‚è-------------------------------------------------
-
-	//‚»‚ê‚¼‚ê‚ÌÚ×î•ñ‚ğ‹‚ß‚Ä‘—‚é----------------------------------------
-
+	
+	//‚»‚ê‚¼‚ê‚ÌÚ×î•ñ‚ğ‹‚ß‚Ä‘—‚é
 	for(int y=0;y<7;y++)
-	{
-		if(delete_num_color1[y] >= 0)//F1‚ÌÁ‚¹‚é”‚ª0ˆÈã‚È‚ç
+	{	
+		//F1‚ÌÁ‚¹‚é”‚ª0ˆÈã‚È‚ç
+		if(DeleteNumColor1[y] >= 0)
 		{
 			if(y < 6)//ˆê”Ô‚µ‚½‚Ì’i‚ÅF‚Q‚ªÁ‚¹‚é‚±‚Æ‚Í‚È‚¢‚Ì‚ÅÈ‚­
 			{
-				if(delete_num_color2[y+1] >= 0)//ˆê‚Â‰º‚Ì’i‚Ì‚ÅF2‚ªÁ‚¦‚é‚È‚ç
+				//ˆê‚Â‰º‚Ì’i‚Ì‚ÅF2‚ªÁ‚¦‚é
+				if(DeleteNumColor2[y+1] >= 0)
 				{
-					//F‚P‚ªÁ‚¹‚ÄF‚Q‚ªÁ‚¦‚é
-
 					//‚»‚Ì’i‚ÅF‚P‚ªÁ‚¹‚é”{‚»‚Ì1‚Â‰º‚ÅF‚Q‚ªÁ‚¹‚é”‚Ì‡Œv‚ğ•Û‘¶
-					delete_num = delete_num_color1[y]+delete_num_color2[y+1];
+					DeleteNum = DeleteNumColor1[y]+DeleteNumColor2[y+1];
 				}
+				//F‚P‚¾‚¯‚ªÁ‚¹‚éê‡
 				else
 				{
-					//F‚P‚¾‚¯‚ªÁ‚¹‚éê‡
-					
 					//‚»‚Ì’i‚ÅF‚P‚ªÁ‚¹‚é”‚ğ•Û‘¶
-					delete_num = delete_num_color1[y];
+					DeleteNum = DeleteNumColor1[y];
 				}
 				
 				//Á‚¹‚éƒ|ƒCƒ“ƒg‚ğ•Û‘¶‚·‚é
-				delete_point.x=BlockStopPoint[y];
-				delete_point.y=y;
+				DeletePoint.x=m_BlockStopPoint[y];
+				DeletePoint.y=y;
 
-				obj_cp->SetDeletePoint(delete_point,delete_num,r);//Á‚¹‚éƒ|ƒCƒ“ƒgA”A‰ñ“]î•ñ‚ğ‘—‚é
+				//Á‚¹‚éƒ|ƒCƒ“ƒgA”A‰ñ“]î•ñ‚ğ‘—‚é
+				ObjCp->SetDeletePoint(DeletePoint,DeleteNum,r);
 			}
 		}
 		
-		if( delete_num_color2[y] >= 0)//F2‚ÌÁ‚¹‚é”‚ª0ˆÈã‚È‚ç
+		//F2‚ÌÁ‚¹‚é”‚ª0ˆÈã‚È‚ç
+		if( DeleteNumColor2[y] >= 0)
 		{
-			//F‚P‚ÍÁ‚¹‚È‚­‚ÄF2‚ÍÁ‚¹‚éê‡
-
 			if(y >= 1)//ˆê”Ôã‚Ì’i‚ÅF2‚ªÁ‚¹‚é‚±‚Æ‚Í‚È‚¢‚Ì‚ÅÈ‚­
 			{
-				//Á‚¹‚éƒ|ƒCƒ“ƒg‚ğ•Û‘¶‚·‚é
-				delete_point.x=BlockStopPoint[y-1];
-				delete_point.y=y-1;
-
-				//1‚Âã‚Ì’i‚ÅF‚P‚ªÁ‚¦‚é‚©
-				if(delete_num_color2[y-1] >=0 )	//F‚P‚àÁ‚¦‚ÄF‚Q‚àÁ‚¦‚éê‡
+				//F1‚àÁ‚¦‚ÄF2‚àÁ‚¦‚éê‡
+				if(DeleteNumColor2[y-1] >=0 )
 				{
 				
 					//F1‚ÅÁ‚¦‚é”{F2‚ÅÁ‚¦‚é”
-					delete_num = delete_num_color2[y]+ delete_num_color1[y];
+					DeleteNum = DeleteNumColor2[y]+ DeleteNumColor1[y];
 				}
-				else//F‚P‚ÍÁ‚¦‚È‚­‚ÄF‚Q‚¾‚¯Á‚¦‚éê‡
+				//F‚P‚ÍÁ‚¦‚È‚­‚ÄF‚Q‚¾‚¯Á‚¦‚éê‡
+				else
 				{
 					//‚»‚Ì’i‚ÅF2‚ªÁ‚¹‚é”
-					delete_num = delete_num_color2[y];
-				}				
+					DeleteNum = DeleteNumColor2[y];
+				}
 
-				obj_cp->SetDeletePoint(delete_point,delete_num,r);//Á‚¹‚éƒ|ƒCƒ“ƒgA”A‰ñ“]î•ñ‚ğ‘—‚é
+				//Á‚¹‚éƒ|ƒCƒ“ƒg‚ğ•Û‘¶‚·‚é
+				DeletePoint.x = m_BlockStopPoint[y - 1];
+				DeletePoint.y = y - 1;
+				
+				//Á‚¹‚éƒ|ƒCƒ“ƒgA”A‰ñ“]î•ñ‚ğ‘—‚é
+				ObjCp->SetDeletePoint(DeletePoint,DeleteNum,r);	
 			}
 		}
 	}
-
-	//Á‚¹‚é‚Æ‚«‚ÌÚ×‹‚ß‚Ä‘—‚é‚ÌI‚í‚è---------------------------------------------------------
 }
 
 //AI—pƒuƒƒbƒN‚ªÁ‚¹‚éˆÊ’u‚ğ’T‚·ŠÖ”(ƒuƒƒbƒN‰¡ƒo[ƒWƒ‡ƒ“)
@@ -852,126 +861,129 @@ void CObjMain::AiDeleteCheck_H(int color1,int color2,int r)
 void CObjMain::AiDeleteCheck_W(int color1,int color2,int r)
 {
 	//CPƒIƒuƒWƒFƒNƒg‚ÌŒÄ‚Ño‚µ
-	CObjCP * obj_cp =(CObjCP*)Objs ::GetObj(OBJ_CP);
+	CObjCP * ObjCp =(CObjCP*)Objs ::GetObj(OBJ_CP);
 	
-	int point_color1 = -1;//F‚P‚Æ“¯‚¶F‚ÌˆÊ’u‚ğ•Û‘¶‚·‚é
-	int point_color2 = -1;//F‚Q‚Æ“¯‚¶F‚ÌˆÊ’u‚ğ•Û‘¶‚·‚é
-	int delete_num_color1[7];//‚»‚ê‚¼‚ê‚Ì’i‚ÅF‚P‚ÌÁ‚¹‚é”
-	int delete_num_color2[7];//‚»‚ê‚¼‚ê‚Ì’i‚ÅF‚Q‚ÌÁ‚¹‚é”
-	int ojm_count[7];//‚¨×–‚ƒuƒƒbƒN‚ÌƒJƒEƒ“ƒg
+	//F1,2“¯‚¶F‚ÌˆÊ’u‚ğ•Û‘¶‚·‚é
+	int PointColor[2];
 
+	int DeleteNum = -1;	//ÅI“I‚ÈÁ‚¹‚é”
+
+	int DeleteNumColor1[7];	//‚»‚ê‚¼‚ê‚Ì’i‚ÅF‚P‚ÌÁ‚¹‚é”
+	int DeleteNumColor2[7];	//‚»‚ê‚¼‚ê‚Ì’i‚ÅF‚Q‚ÌÁ‚¹‚é”
+
+	int OjmCount[7];//‚¨×–‚ƒuƒƒbƒN‚ÌƒJƒEƒ“ƒg
+
+	//‰Šú‰»
 	for(int i=0;i<7;i++)
 	{
-		//‰Šú‰»
-		delete_num_color1[i]=-1;
-		delete_num_color2[i]=-1;
-		ojm_count[i]=0;
+		DeleteNumColor1[i]=-1;
+		DeleteNumColor2[i]=-1;
+		OjmCount[i]=0;
 	}
 
-	Point delete_point;//Á‚¹‚éˆÊ’u‚Ì•Û‘¶—p
-	delete_point.x=-1;
-	delete_point.y=-1;
+	//Á‚¹‚éˆÊ’u‚Ì•Û‘¶—p
+	Point DeletePoint;
+	DeletePoint.x=-1;
+	DeletePoint.y=-1;
 	
 	//ƒuƒƒbƒN‚Ì~‚Ü‚é‚Å‚ ‚ë‚¤ˆÊ’u‚ğ’T‚·
 	StopPointCheck();
 	
-	//ã‚©‚çˆê’i‚¸‚ÂF1,2‚ÅÁ‚¹‚é‚©‚¸‚ğ’²‚×‚Ä‚¢‚­---------------
+	//ã‚©‚çˆê’i‚¸‚ÂF1,2‚ÅÁ‚¹‚é‚©‚¸‚ğ’²‚×‚Ä‚¢‚­
 	for(int y=0;y<7;y++)
 	{
 		//‰Šú’l‚É–ß‚·
-		point_color1 = -1;
-		point_color2 = -1;
+		PointColor[0] = -1;
+		PointColor[1] = -1;
 
 		//ƒuƒƒbƒN‚ª~‚Ü‚éˆÊ’u‚Ìˆê‚Â¶‚©‚ç‡‚ÉŒ©‚Ä‚¢‚­
-		for(int i=BlockStopPoint[y]-1;i>0;i--)
+		for(int i=m_BlockStopPoint[y]-1;i>0;i--)
 		{
-			//‹ó”’‚È‚ç
-			if( m_map[y][i].num == 99 )
+			//‹ó”’‚È‚ç‚»‚êˆÈãŒ©‚é•K—v‚ª‚È‚¢‚Ì‚Åƒ‹[ƒv‚ğ”²‚¯‚é
+			if( m_map[y][i].Num == 99 )
 			{
-				break;//‚»‚êˆÈãŒ©‚é•K—v‚ª‚È‚¢‚Ì‚Åƒ‹[ƒv‚ğ”²‚¯‚é
+				break;
 			}
 
-			//F‚P‚Æ“¯‚¶F‚È‚ç
-			if( m_map[y][i].num == color1)
+			//F1‚Æ“¯‚¶F‚È‚ç‚»‚ÌˆÊ’u‚ğ•Û‘¶‚·‚é
+			if( m_map[y][i].Num == color1)
 			{
-				point_color1=i;//‚»‚ÌˆÊ’u‚ğ•Û‘¶‚·‚é
+				PointColor[0]=i;
 			}
 
-			//F‚Q‚Æ“¯‚¶F‚È‚ç
-			if( m_map[y][i].num == color2)
+			//F2‚Æ“¯‚¶F‚È‚ç‚»‚ÌˆÊ’u‚ğ•Û‘¶‚·‚é
+			if( m_map[y][i].Num == color2)
 			{
-				point_color2=i;//‚»‚ÌˆÊ’u‚ğ•Û‘¶‚·‚é
+				PointColor[1] = i;
 			}
 
-			//‚¨×–‚ƒuƒƒbƒN‚È‚ç
-			if(m_map[y][i].num==6)
+			//‚¨×–‚ƒuƒƒbƒN‚È‚ç‚¨×–‚ƒJƒEƒ“ƒg‚ğ‘‚â‚·
+			if(m_map[y][i].Num==6)
 			{
-				ojm_count[y]++;//ƒJƒEƒ“ƒg‚ğ‘‚â‚·
+				OjmCount[y]++;
 			}
 
-			if(point_color1 != -1)//‚»‚Ì’i‚ÅF‚P‚ªŒ©‚Â‚©‚Á‚Ä‚¢‚ê‚Î
+			//‚»‚Ì’i‚ÅF1‚ªŒ©‚Â‚©‚Á‚Ä‚¢‚ê‚ÎÁ‚¹‚é”‚ğXV‚·‚é
+			if(PointColor[0] != -1)
 			{
-				delete_num_color1[y] = abs( BlockStopPoint[y] - point_color1) + 1 - 4 - ojm_count[y];//Á‚¹‚é”‚ğXV‚·‚é
-			
-				//if(delete_num_color1[y] < 0)
-				//	delete_num_color1[y]=0;//0ˆÈ‰º‚É‚È‚ç‚È‚¢‚æ‚¤‚É‚·‚é
+				DeleteNumColor1[y] = abs( m_BlockStopPoint[y] - PointColor[0]) + 1 - 4 - OjmCount[y];		
 			}
 
-			if(point_color2 != -1)//‚»‚Ì’i‚ÅF2‚ªŒ©‚Â‚©‚Á‚Ä‚¢‚ê‚Î
+			//‚»‚Ì’i‚ÅF2‚ªŒ©‚Â‚©‚Á‚Ä‚¢‚ê‚ÎÁ‚¹‚é”‚ğXV‚·‚é
+			if (PointColor[1] != -1)
 			{
-				delete_num_color2[y] = abs( BlockStopPoint[y]+1 - point_color2) + 1 - 4 - ojm_count[y];//Á‚¹‚é”‚ğXV‚·‚é
-				
-				//if(delete_num_color2[y] < 0)
-				//	delete_num_color2[y]=0;//0ˆÈ‰º‚É‚È‚ç‚È‚¢‚æ‚¤‚É‚·‚é
+				DeleteNumColor2[y] = abs(m_BlockStopPoint[y] - PointColor[1]) + 1 - 4 - OjmCount[y];
 			}
 		}
 	}
-	//‚»‚ê‚¼‚ê‚Ì’i‚Å‚ÌÁ‚¹‚é”‚ğ’²‚×‚é‚ÌI‚í‚è-------------------------------------------------
-
-	//‚»‚ê‚¼‚ê‚ÌÚ×î•ñ‚ğ‹‚ß‚Ä‘—‚é----------------------------------------
 	
-		//‰¡Œü‚«‚Ìê‡‚ÍF1‚Æ2‚Ì‚É‚æ‚Á‚ÄˆÊ’u‚Ì•Ï‰»‚Í–³‚¢‚Ì‚ÅÁ‚¹‚é”‚¾‚¯’²‚×‚ê‚Î‚¢‚¢
-		for(int y=0;y<7;y++)
+	//‚»‚ê‚¼‚ê‚ÌÚ×î•ñ‚ğ‹‚ß‚Ä‘—‚é
+	//‰¡Œü‚«‚Ìê‡‚ÍF1‚Æ2‚Ì‚É‚æ‚Á‚ÄˆÊ’u‚Ì•Ï‰»‚Í–³‚¢‚Ì‚ÅÁ‚¹‚é”‚¾‚¯’²‚×‚ê‚Î‚¢‚¢
+	for(int y=0;y<7;y++)
+	{
+		//F1‚©F2‚ÌÁ‚¹‚é”‚ª0‚æ‚è‚¨‚¨‚«‚¯‚ê‚Î
+		if( DeleteNumColor1[y] >= 0 || DeleteNumColor2[y] >= 0)
 		{
-			if( delete_num_color1[y] >= 0 || delete_num_color2[y] >= 0)//F1‚©F2‚ÌÁ‚¹‚é”‚ª0‚æ‚è‚¨‚¨‚«‚¯‚ê‚Î
-			{
-				//Á‚¹‚éƒ|ƒCƒ“ƒg‚ğ•Û‘¶‚·‚é
-				delete_point.x=BlockStopPoint[y];
-				delete_point.y=y;
+			//Á‚¹‚éƒ|ƒCƒ“ƒg‚ğ•Û‘¶‚·‚é
+			DeletePoint.x=m_BlockStopPoint[y];
+			DeletePoint.y=y;
 
-				//F‚P‚Æ‚Q‚ÅÁ‚¹‚é”‚Ì‘å‚«‚¢•û‚ğ’²‚×‚Ä‘—‚é
-				if(delete_num_color1[y] >=delete_num_color2[y])	//F1‚Ì•û‚ª‘½‚­Á‚¹‚éê‡
-				{
-					
-					obj_cp->SetDeletePoint(delete_point,delete_num_color1[y],r);	//î•ñ‚ğ‘—‚é
-				
-				}
-				else	//F2‚Ì•û‚ª‘½‚­Á‚¹‚éê‡
-				{
-					obj_cp->SetDeletePoint(delete_point,delete_num_color2[y],r);	//î•ñ‚ğ‘—‚é
-				}
-			}	
-		}
-	//Ú×‹‚ß‚Ä‘—‚é‚Ì‚¨‚í‚è------------------------------------------------
+			//F‚P‚Æ‚Q‚ÅÁ‚¹‚é”‚Ì‘å‚«‚¢•û‚ğ’²‚×‚Ä‘—‚é
+
+			//F1‚Ì•û‚ª‘½‚­Á‚¹‚éê‡
+			if(DeleteNumColor1[y] >=DeleteNumColor2[y])	
+			{
+				ObjCp->SetDeletePoint(DeletePoint,DeleteNumColor1[y],r);				
+			}
+			//F2‚Ì•û‚ª‘½‚­Á‚¹‚éê‡
+			else
+			{
+				ObjCp->SetDeletePoint(DeletePoint,DeleteNumColor2[y],r);
+			}
+		}	
+	}
 }
 
 //ƒuƒƒbƒN‚ª~‚Ü‚éˆÊ’u‚Ì‚È‚©‚êˆê”Ô¬‚³‚¢ˆÊ’u‚ğ’T‚µA•¡”‚ ‚ê‚Î‚»‚Ì’†‚©‚çƒ‰ƒ“ƒ_ƒ€‚Å‚P‚ÂŒˆ‚ß‚éŠÖ”
 int CObjMain::InSideCheck()
 {
-	int i;//ƒ‹[ƒv—pi——pj
-	int BlockStopPoint_copy[7];//”äŠr—p‚ÉƒRƒs[‚µ‚Ä•Û‘¶—p
-	int npc;//ƒ‰ƒ“ƒ_ƒ€—p
+	int i = 0;		//ƒ‹[ƒv—pi——pj
+	int npc;	//ƒ‰ƒ“ƒ_ƒ€—p
 	int count=0;//ã‚©‚ç‰½”Ô–Ú‚ÌÅ¬’l‚©ƒJƒEƒ“ƒg‚·‚é
 	
-	srand(time(NULL)); // ƒ‰ƒ“ƒ_ƒ€î•ñ‚ğ‰Šú‰»
+	int BlockStopPointCopy[7];//”äŠr—p‚ÉƒRƒs[‚µ‚Ä•Û‘¶—p
+
+	//ƒ‰ƒ“ƒ_ƒ€î•ñ‚ğ‰Šú‰»
+	srand(time(NULL)); 
 
 	//ƒRƒs[‚ğ‚Â‚­‚é
 	for( i=0;i<7;i++)
 	{
-		BlockStopPoint_copy[i] = BlockStopPoint[i];
+		BlockStopPointCopy[i] = m_BlockStopPoint[i];
 	}
 
-	int n;//’l‹L‰¯—p
+	//’l‹L‰¯—p
+	int num;
 	
 	//ƒRƒs[‚ğƒ\[ƒg‚·‚é
 	for( i=0;i<6;i++)
@@ -979,37 +991,43 @@ int CObjMain::InSideCheck()
 		for(int j=i+1;j<7;j++)
 		{
 			//‚à‚µ’l‚ª‘å‚«‚¯‚ê‚Î“ü‚ê‘Ö‚¦‚é
-			if(BlockStopPoint_copy[i] >BlockStopPoint_copy[j])
+			if(BlockStopPointCopy[i] >BlockStopPointCopy[j])
 			{
-				n =BlockStopPoint_copy[i];
-				BlockStopPoint_copy[i] = BlockStopPoint_copy[j];
-				BlockStopPoint_copy[j] = n;
+				num =BlockStopPointCopy[i];
+				BlockStopPointCopy[i] = BlockStopPointCopy[j];
+				BlockStopPointCopy[j] = num;
 			}
 		}
 	}
 
-	n=BlockStopPoint_copy[0];//Å¬’l‚ğ•Û‘¶
+	//Å¬’l‚ğ•Û‘¶
+	num=BlockStopPointCopy[0];
 
 	for( i=1 ;i < 7 ; i++)
 	{
-		if( BlockStopPoint_copy[i] != n)//Å¬’l‚¢‚ª‚¢‚È‚ç
+		//Å¬’l‚¢‚ª‚¢‚È‚ç
+		if( BlockStopPointCopy[i] != num)
 		{
 			break;
 		}
 	}
 
-	npc = rand() % i;//0~n‚Åˆê‚Â’l‚ği‚é
+	//0-num‚Åˆê‚Â’l‚ği‚é
+	npc = rand() % i;
 
 	for(i=0;i<7;i++)
 	{
-		if(BlockStopPoint[i]==n)
+		if(m_BlockStopPoint[i]==num)
 		{
-			if(count==npc)//count‚Æ—”‚ªˆê’v‚·‚ê‚Î
+			//count‚Æ—”‚ªˆê’v‚·‚ê‚Î
+			if(count==npc)
 				return i;
 
-			count++;//ƒJƒEƒ“ƒg‚ğ‘‚â‚·
+			//ƒJƒEƒ“ƒg‚ğ‘‚â‚·
+			count++;
 		}
 	}
+	return 0;
 }
 
 //Ÿ—˜”»’è‚ÌƒQ[ƒ€ƒI[ƒo[ì¬‚È‚Ç‚Ìˆ—‚ğ‚·‚éŠÖ”
@@ -1017,88 +1035,93 @@ int CObjMain::InSideCheck()
 void CObjMain::VictoryProcess(bool vs_CP)
 {
 	//ƒq[ƒ[ƒIƒuƒWƒFƒNƒg‚ÌŒÄ‚Ño‚µ
-	CObjHero * obj_h =(CObjHero*)Objs ::GetObj(OBJ_HERO);		//¶
-	CObjHero_R * obj_hr =(CObjHero_R*)Objs ::GetObj(OBJ_HERO_R);//‰E
+	CObjHero * obj_h =(CObjHero*)Objs ::GetObj(OBJ_HERO);		
+	CObjHero_R * obj_hr =(CObjHero_R*)Objs ::GetObj(OBJ_HERO_R);
 	
-	if(m_vc_l==true && m_vc_r==true )//—¼•û‚ª”s–kğŒ‚ğ–‚½‚µ‚Ä‚¢‚é‚È‚ç
-	{
-		//ˆø‚«•ª‚¯
-			
+	// —¼•û‚ª”s–kğŒ‚ğ–‚½‚µ‚Ä‚¢‚é‚È‚çˆø‚«•ª‚¯
+	if(m_bLeftWin==true && m_bRightWin==true )
+	{ 
 		if(vs_CP==false)
 		{
 			//ƒQ[ƒ€ƒI[ƒo[ƒIƒuƒWƒFƒNƒgì¬
-			CObjGameOver* obj_win_lose = new CObjGameOver(0);//ƒ^ƒCƒgƒ‹ƒIƒuƒWƒFƒNƒgì¬
-			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);//ƒ^ƒCƒgƒ‹ƒIƒuƒWƒFƒNƒgì¬
+			CObjGameOver* obj_win_lose = new CObjGameOver(0);
+			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);
 
-			//‹@‘Ì‚ğs“®•s”\‚É‚·‚é------
+			//‹@‘Ì‚ğs“®•s”\‚É‚·‚é
 			obj_h->EndFlagON();
 			obj_hr->EndFlagON();
-			//------------------------------
 		}
 		if(vs_CP==true)
 		{
 			CObjCP * obj_cp =(CObjCP*)Objs ::GetObj(OBJ_CP);//CPƒIƒuƒWƒFƒNƒg‚ÌŒÄ‚Ño‚µ
 	
 			//ƒQ[ƒ€ƒI[ƒo[ƒIƒuƒWƒFƒNƒgì¬
-			CObjGameOver* obj_win_lose = new CObjGameOver(0);//ƒ^ƒCƒgƒ‹ƒIƒuƒWƒFƒNƒgì¬
-			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);//ƒ^ƒCƒgƒ‹ƒIƒuƒWƒFƒNƒgì¬
+			CObjGameOver* obj_win_lose = new CObjGameOver(0);
+			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);
 
-			//‹@‘Ì‚ğs“®•s”\‚É‚·‚é------
+			//‹@‘Ì‚ğs“®•s”\‚É‚·‚é
 			obj_h->EndFlagON();
 			obj_cp->EndFlagON();
-			//------------------------------
 		}
-		flag = true;
+		m_bGameOver = true;
 	}
-	else if(m_vc_r==true)//‰E‚¾‚¯”s–kğŒ‚ğ–‚½‚µ‚Ä‚¢‚é‚È‚ç
+	//‰E‚¾‚¯”s–kğŒ‚ğ–‚½‚µ‚Ä‚¢‚é‚È‚ç¶‚ÌŸ‚¿(1P)
+	else if(m_bRightWin==true)
 	{
-		if(vs_CP==false)//‚Qpí‚È‚ç
+		//‚Qpí‚È‚ç
+		if(vs_CP==false)
 		{
-			//¶‚ÌŸ‚¿(1P)
-			CObjGameOver* obj_win_lose = new CObjGameOver(1);//ƒ^ƒCƒgƒ‹ƒIƒuƒWƒFƒNƒgì¬
-			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);//ƒ^ƒCƒgƒ‹ƒIƒuƒWƒFƒNƒgì¬
-			//‹@‘Ì‚ğs“®•s”\‚É‚·‚é------
+			//ƒQ[ƒ€ƒI[ƒo[ƒIƒuƒWƒFƒNƒgì¬
+			CObjGameOver* obj_win_lose = new CObjGameOver(1);
+			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);
+			
+			//‹@‘Ì‚ğs“®•s”\‚É‚·‚é
 			obj_h->EndFlagON();
 			obj_hr->EndFlagON();
-			//------------------------------
 		}
-		if(vs_CP==true)//CPí‚È‚ç
+		if(vs_CP==true)//CPí
 		{
-			CObjCP * obj_cp =(CObjCP*)Objs ::GetObj(OBJ_CP);//CPƒIƒuƒWƒFƒNƒg‚ÌŒÄ‚Ño‚µ
+			//CPƒIƒuƒWƒFƒNƒg‚ÌŒÄ‚Ño‚µ
+			CObjCP * obj_cp =(CObjCP*)Objs ::GetObj(OBJ_CP);
 	
-			CObjGameOver* obj_win_lose = new CObjGameOver(1);//ƒ^ƒCƒgƒ‹ƒIƒuƒWƒFƒNƒgì¬
-			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);//ƒ^ƒCƒgƒ‹ƒIƒuƒWƒFƒNƒgì¬
-			//‹@‘Ì‚ğs“®•s”\‚É‚·‚é------
+			//ƒQ[ƒ€ƒI[ƒo[ƒIƒuƒWƒFƒNƒgì¬
+			CObjGameOver* obj_win_lose = new CObjGameOver(1);
+			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);
+	
+			//‹@‘Ì‚ğs“®•s”\‚É‚·‚é
 			obj_h->EndFlagON();
 			obj_cp->EndFlagON();
-			//------------------------------
 		}
-		flag = true;
+		m_bGameOver = true;
 	}
-	else if(m_vc_l==true)//¶‚¾‚¯”s–kğŒ‚ğ–‚½‚µ‚Ä‚¢‚é‚È‚ç
+	//¶‚¾‚¯”s–kğŒ‚ğ–‚½‚µ‚Ä‚¢‚é‚È‚ç‰E‚ÌŸ‚¿
+	else if(m_bLeftWin==true)
 	{
-		if(vs_CP==false)//2Pí‚È‚ç
+		//2Pí
+		if(vs_CP==false)
 		{
-			//‰E‚ÌŸ‚¿(2P)
-			CObjGameOver* obj_win_lose = new CObjGameOver(2);//ƒQ[ƒ€ƒI[ƒo[ƒIƒuƒWƒFƒNƒgì¬
-			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);//ƒQ[ƒ€ƒI[ƒo[ƒIƒuƒWƒFƒNƒgì¬
-			//‹@‘Ì‚ğs“®•s”\‚É‚·‚é------
+			//ƒQ[ƒ€ƒI[ƒo[ƒIƒuƒWƒFƒNƒgì¬
+			CObjGameOver* obj_win_lose = new CObjGameOver(2);
+			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);
+
+			//‹@‘Ì‚ğs“®•s”\‚É‚·‚é
 			obj_h->EndFlagON();
 			obj_hr->EndFlagON();
-			//------------------------------
 		}
-		if(vs_CP==true)//CPí‚È‚ç
+		//CPí
+		if(vs_CP==true)
 		{
-			CObjCP * obj_cp =(CObjCP*)Objs ::GetObj(OBJ_CP);//CPƒIƒuƒWƒFƒNƒg‚ÌŒÄ‚Ño‚µ
+			//CPƒIƒuƒWƒFƒNƒg‚ÌŒÄ‚Ño‚µ
+			CObjCP * obj_cp =(CObjCP*)Objs ::GetObj(OBJ_CP);
 	
-			CObjGameOver* obj_win_lose = new CObjGameOver(2);//ƒQ[ƒ€ƒI[ƒo[ƒIƒuƒWƒFƒNƒgì¬
-			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);//ƒQ[ƒ€ƒI[ƒo[ƒIƒuƒWƒFƒNƒgì¬
-			//‹@‘Ì‚ğs“®•s”\‚É‚·‚é------
+			//ƒQ[ƒ€ƒI[ƒo[ƒIƒuƒWƒFƒNƒgì¬
+			CObjGameOver* obj_win_lose = new CObjGameOver(2);
+			Objs::InsertObj(obj_win_lose,OBJ_GAME_OVER,10);
+			
+			//‹@‘Ì‚ğs“®•s”\‚É‚·‚é
 			obj_h->EndFlagON();
 			obj_cp->EndFlagON();
-			//------------------------------
 		}
-
-			flag = true;
+		m_bGameOver = true;
 	}
 }

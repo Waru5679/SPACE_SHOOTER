@@ -143,7 +143,7 @@ void CObjCP::Action()
 //移動、回転、弾の発射をする関数
 void CObjCP::ShotMove()
 {
-	//マップオブジェクトの呼び出し
+	//メインオブジェクトの呼び出し
 	CObjMain * obj =(CObjMain*)Objs ::GetObj(OBJ_MAIN);
 
 	//5フレーム毎に回転と移動をできるようにする
@@ -304,7 +304,6 @@ void CObjCP::GaugeDraw()
 	
 	//描画する
 	Draw::Draw(15, &m_Src, &m_Dst, m_fNomalColor, 0.0f);
-//背景おわり----------------------
 
 //ゲージ本体----------------------
 	//切り取り位置
@@ -315,7 +314,6 @@ void CObjCP::GaugeDraw()
 	
 	//描画
 	Draw::Draw(15, &m_Src, &m_Dst, m_fNomalColor, 0.0f);
-//ゲージおわり-----------------------------------------------------------
 }
 
 //後のブロック描画
@@ -367,8 +365,8 @@ void CObjCP::Shot()
 
 	//ブロックを入れる位置がお邪魔ブロックとの重複しないかのチェック
 	bool check,check2;
-	check = (obj->Return_Num(m_Shot[0].x,m_Shot[0].y) == 99 );
-	check2= (obj->Return_Num(m_Shot[1].x,m_Shot[1].y) == 99 );
+	check = (obj->ReturnNum(m_Shot[0].x,m_Shot[0].y) == 99 );
+	check2= (obj->ReturnNum(m_Shot[1].x,m_Shot[1].y) == 99 );
 	
 	//２つのブロックが無事に打てる状況なら
 	if(check==true && check2==true)

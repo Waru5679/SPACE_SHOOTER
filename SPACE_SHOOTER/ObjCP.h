@@ -32,7 +32,7 @@ public:
 	
 	void EndFlagON(){ m_bEnd = true; }		//ゲームオブジェクトフラグをオンにする
 	int ReturnMove(){ return m_MoveCheck; }	//移動の位置を返す関数
-	void SetOjmNum(int n){ m_OjmNum += n; }	//お邪魔ブロックの生成数をセットする関数
+	void SetOjmNum(int Num){ m_OjmNum += Num; }	//お邪魔ブロックの生成数をセットする関数
 
 	//AI関連の関数
 	void SetDeletePoint(Point Pos, int Num, int Rot);//ブロックの消せるをセットする関数
@@ -84,7 +84,5 @@ private:
 	RECT_F m_Dst;				//描画先の表示位置
 	float m_fNomalColor[4];		//通常の色
 	float m_fPreBlockColor[4];	//予測ブロックの色
-	float m_fFontColor[4];		//文字表示色の色
-
-	
+	float m_fFontColor[4];		//文字表示色の色	
 };

@@ -4,17 +4,14 @@
 #include"GameL\DrawTexture.h"
 #include "GameL\WinInputs.h"
 #include "GameL\Audio.h"
-
 #include "GameHead.h"
 #include "ObjGameOver.h"
 #include "ObjBackground.h"
-
 #include "GameL\UserData.h"
+#include "ObjCP.h"
 
 //使用するネームスペース
 using namespace GameL;
-
-
 
 //コンストラクタ
 CObjGameOver::CObjGameOver(int p)
@@ -31,20 +28,16 @@ void CObjGameOver::Init()
 
 	count=0;
 	ranking = 0;
-
-
-	//CP戦かどうかしらべる------
+	
 	//マップオブジェクトの呼び出し
 	CObjMain * obj = (CObjMain*)Objs::GetObj(OBJ_MAIN);
 	m_cp_flag=obj->ReturnCPflag();
-	//-------------------------
-
-	//Win.wav以外の音楽をとめる------
+	
 	//戦闘曲ストップ
 	Audio::Stop(8);
+
 	//勝敗ミュージック開始
 	Audio::Start(7);
-	//--------------------------------
 }
 
 //アクション
@@ -99,8 +92,7 @@ void CObjGameOver::Draw()
 //パターンに応じて
 void CObjGameOver::Result()
 {
-	CObjCP* obj_cp = new CObjCP();
-
+	CObjCP* obj_cp=(CObjCP*)Objs::GetObj(OBJ_CP);
 	float c[4]={1.0f,1.0f,1.0f,1.0f};//カラー
 	
 	switch(m_pattern)
